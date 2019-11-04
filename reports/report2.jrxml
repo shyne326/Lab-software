@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="88cfcafa-f0f7-49ea-ac84-f7ba997a2048">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     test.`name` AS test_name,
+     test.`price` AS test_price,
+     test.`unit_of_measurement` AS test_unit_of_measurement,
+     test.`section_id` AS test_section_id,
+     user.`date_of_birth` AS user_date_of_birth,
+     user.`first_name` AS user_first_name,
+     user.`last_name` AS user_last_name,
+     user.`sigle` AS user_sigle,
+     sigle.`name` AS sigle_name,
+     sexe.`name` AS sexe_name,
+     sample.`id` AS sample_id,
+     sample.`created_on` AS sample_created_on,
+     sample.`statut_vie` AS sample_statut_vie,
+     sample.`updated_on` AS sample_updated_on,
+     sample.`lab_technician_id` AS sample_lab_technician_id,
+     sample.`patient_id` AS sample_patient_id,
+     sample.`sample_type_id` AS sample_sample_type_id,
+     sample.`requester` AS sample_requester,
+     sample.`requester_address` AS sample_requester_address
+FROM
+     `sigle` sigle INNER JOIN `user` user ON sigle.`id` = user.`sigle_id`
+     INNER JOIN `sexe` sexe ON user.`sex_id` = sexe.`id`
+     INNER JOIN `sample` sample ON user.`id` = sample.`patient_id`,
+     `test` test
+WHERE
+     user.`id` = 2]]>
+	</queryString>
+	<field name="test_name" class="java.lang.String"/>
+	<field name="test_price" class="java.lang.Long"/>
+	<field name="test_unit_of_measurement" class="java.lang.String"/>
+	<field name="test_section_id" class="java.lang.Integer"/>
+	<field name="user_date_of_birth" class="java.sql.Timestamp"/>
+	<field name="user_first_name" class="java.lang.String"/>
+	<field name="user_last_name" class="java.lang.String"/>
+	<field name="user_sigle" class="java.lang.String"/>
+	<field name="sigle_name" class="java.lang.String"/>
+	<field name="sexe_name" class="java.lang.String"/>
+	<field name="sample_id" class="java.lang.Long"/>
+	<field name="sample_created_on" class="java.sql.Timestamp"/>
+	<field name="sample_statut_vie" class="java.lang.Boolean"/>
+	<field name="sample_updated_on" class="java.sql.Timestamp"/>
+	<field name="sample_lab_technician_id" class="java.lang.Integer"/>
+	<field name="sample_patient_id" class="java.lang.Integer"/>
+	<field name="sample_sample_type_id" class="java.lang.Integer"/>
+	<field name="sample_requester" class="java.lang.String"/>
+	<field name="sample_requester_address" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="146" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="554" height="144" uuid="8bd02dbd-2fc5-489c-86d9-bc0a34353095"/>
+				<imageExpression><![CDATA["C:\\Users\\CHRISTIAN\\Documents\\NetBeansProjects\\LaboMJ\\reports\\labo-banner.JPG"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="187" splitType="Stretch">
+			<textField>
+				<reportElement x="85" y="40" width="135" height="20" uuid="bb726f85-d01d-4fd1-9109-176c1c8815f6"/>
+				<textFieldExpression><![CDATA[$F{sample_requester}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="19" y="80" width="61" height="20" uuid="99c9e472-523b-4df9-8c7f-e83544805e08"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Imprimé le: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="60" width="61" height="20" uuid="e35c8325-584e-44a1-ae99-eda205390ebc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dossier overt le: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="100" width="61" height="20" uuid="b7dbf0fc-9669-45aa-8011-0a3e59ab4c42"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Imprimé par: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="93" y="141" width="382" height="20" uuid="4eb5066d-360c-4138-a4d0-c868325a4c2f"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Tout le personnel du LABORATOIRE M.J. vous souhaite une bonne guérison]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="20" width="100" height="20" uuid="f307cdea-8479-448f-82a2-8dfae64089a0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODE DU DOSSIER: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="20" width="100" height="20" uuid="082987fc-2bb1-46a6-92c1-7d07bd0cde2f"/>
+				<text><![CDATA[25895]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="40" width="66" height="20" uuid="772ea1ee-00be-42d3-9999-d82815841253"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prescripteur:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="320" y="20" width="228" height="80" uuid="8463a45a-4b0d-4efb-a901-392e80cc79c4"/>
+			</rectangle>
+			<elementGroup>
+				<elementGroup>
+					<elementGroup>
+						<elementGroup>
+							<elementGroup>
+								<elementGroup>
+									<textField>
+										<reportElement x="368" y="30" width="26" height="20" uuid="164b24b6-95ef-4480-9114-8a00bdc39ddf"/>
+										<textElement>
+											<font size="10" isBold="false"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{sigle_name}]]></textFieldExpression>
+									</textField>
+									<elementGroup>
+										<elementGroup>
+											<textField>
+												<reportElement x="444" y="30" width="71" height="20" uuid="f8d4748c-18aa-4c6f-8c09-5595964e6b62"/>
+												<textElement>
+													<font size="10" isBold="false"/>
+												</textElement>
+												<textFieldExpression><![CDATA[$F{user_last_name}]]></textFieldExpression>
+											</textField>
+											<textField>
+												<reportElement x="395" y="30" width="52" height="20" uuid="28945984-355c-4471-94ad-4f96eef5b43a"/>
+												<textElement>
+													<font size="10" isBold="false"/>
+												</textElement>
+												<textFieldExpression><![CDATA[$F{user_first_name}]]></textFieldExpression>
+											</textField>
+										</elementGroup>
+									</elementGroup>
+								</elementGroup>
+							</elementGroup>
+						</elementGroup>
+					</elementGroup>
+				</elementGroup>
+			</elementGroup>
+			<staticText>
+				<reportElement x="321" y="30" width="45" height="20" uuid="bd5d81b9-67a4-4068-9b41-506f27b849f2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Patient:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="50" width="38" height="20" uuid="25de1fde-c98f-4fd8-abdb-0de1c0e441c8"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Sexe: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="70" width="37" height="20" uuid="c6cc4398-b9e1-46ce-bb2b-4a2bfbad6fa4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Age:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="368" y="50" width="100" height="20" uuid="72ea7bc7-0ad0-4bee-bec6-ffeb928727ee"/>
+				<textFieldExpression><![CDATA[$F{sexe_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="70" width="100" height="20" uuid="cdcf366d-8b8e-4398-b3eb-4f6d545c3ced"/>
+				<textFieldExpression><![CDATA[$F{user_date_of_birth}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="151" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="221" y="14" width="100" height="20" uuid="90d04293-0265-4dc5-8bf2-efca0e5cc0b8"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{test_name}.toUpperCase()]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{test_name}.toUpperCase()]]></patternExpression>
+			</textField>
+			<elementGroup>
+				<elementGroup>
+					<elementGroup>
+						<staticText>
+							<reportElement x="18" y="90" width="74" height="20" uuid="6620dce7-ab84-420e-bc9d-9325d69fff29"/>
+							<textElement>
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[P.S.A. Totale]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="19" y="51" width="99" height="20" uuid="1f5ff8b2-1fd0-4e33-a20b-26763e0f91c7"/>
+							<textElement>
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[METHODE UTILISEE:]]></text>
+						</staticText>
+						<line>
+							<reportElement x="19" y="110" width="514" height="1" uuid="49756af4-aea2-4a9a-9251-e16d65c5725b"/>
+							<graphicElement>
+								<pen lineWidth="0.5" lineStyle="Dotted"/>
+							</graphicElement>
+						</line>
+						<line>
+							<reportElement x="19" y="71" width="514" height="1" uuid="1c054c4e-fe89-4dd3-bd8b-f6c662662cdd"/>
+							<graphicElement>
+								<pen lineWidth="0.5" lineStyle="Solid"/>
+							</graphicElement>
+						</line>
+						<staticText>
+							<reportElement x="19" y="128" width="100" height="20" uuid="1df3a38b-f6ea-4116-b3d6-1deb6c1ff572"/>
+							<textElement>
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[REMARQUE: ]]></text>
+						</staticText>
+					</elementGroup>
+				</elementGroup>
+			</elementGroup>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="434" y="34" width="80" height="20" uuid="e6c26dcc-85c6-4b18-a942-578a082c4efa"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="34" width="40" height="20" uuid="59376bf1-e5db-4801-a0f5-214237872ba2"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="220" y="27" width="100" height="20" uuid="de142785-0351-4816-80c4-26c61a32eadd"/>
+				<text><![CDATA[Last Page fooeter]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="434" y="27" width="80" height="20" uuid="5c495e26-dadc-4349-a609-7e7072221621"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="514" y="27" width="40" height="20" uuid="f0535ad4-16e8-43d5-b814-9752b1dcaae9"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="455" y="22" width="100" height="20" uuid="07bf99ab-f21d-4f89-b534-a03508e04842"/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
