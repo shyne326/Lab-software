@@ -8,9 +8,11 @@ package com.example.laboratoire.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,25 +46,22 @@ public class User {
     @Column(name="last_name")
     private String lastName;
 
-    @ManyToOne
-    @JsonIgnoreProperties("id")
-    private Sigle sigle; //title
-    @ManyToOne  
-    @JsonIgnoreProperties("id")
-    private Sexe sex;
+    private String sigle; //title
     
-    @Column(name="date_of_birth")
+    private String sex;
+    private String roles;
+    
     @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
+    private Date dob;
     
     @Size(max=50, message="Too long, should be less than 50 characters")
     private String nationality;
     
-    @Column(name="id_card_no")
+    @Column(name="cni")
     @Size(max=50, message="ID card number cannot be more than 50 characters")
-    private String idCardNumber;
+    private String cni;
     
-    private String picture;
+    private String photo;
     private String address;   // May have an address Table later so address will be of type Address
     private String phone;
     
@@ -93,16 +92,17 @@ public class User {
         this.id = id;
     }
 
-    public User(int id, String firstName, String lastName, Sigle sigle, Sexe sex, Date dateOfBirth, String nationality, String idCardNumber, String picture, String address, String phone, String codeUtilisateur, String email, String password, Date createdOn, Date updatedOn, boolean statutVie) {
+    public User(int id, String firstName, String lastName, String sigle, String sex, Date dob, String roles, String nationality, String cni, String photo, String address, String phone, String codeUtilisateur, String email, String password, Date createdOn, Date updatedOn, boolean statutVie) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.sigle = sigle;
         this.sex = sex;
-        this.dateOfBirth = dateOfBirth;
+        this.dob = dob;
+        this.roles = roles;
         this.nationality = nationality;
-        this.idCardNumber = idCardNumber;
-        this.picture = picture;
+        this.cni = cni;
+        this.photo = photo;
         this.address = address;
         this.phone = phone;
         this.codeUtilisateur = codeUtilisateur;
@@ -142,15 +142,6 @@ public class User {
         return this;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public User setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-        return this;
-    }
-
     public String getNationality() {
         return nationality;
     }
@@ -160,21 +151,12 @@ public class User {
         return this;
     }
 
-    public String getIdCardNumber() {
-        return idCardNumber;
+    public String getPhoto() {
+        return photo;
     }
 
-    public User setIdCardNumber(String idCardNumber) {
-        this.idCardNumber = idCardNumber;
-        return this;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public User setPicture(String picture) {
-        this.picture = picture;
+    public User setPhoto(String picture) {
+        this.photo = picture;
         return this;
     }
 
@@ -250,23 +232,48 @@ public class User {
         return this;
     }
 
-    public Sigle getSigle() {
+    public String getSigle() {
         return sigle;
     }
 
-    public User setSigle(Sigle sigle) {
+    public User setSigle(String sigle) {
         this.sigle = sigle;
         return this;
     }
 
-    public Sexe getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public User setSex(Sexe sex) {
+    public User setSex(String sex) {
         this.sex = sex;
         return this;
     }
    
-    
+        public String getRoles() {
+        return roles;
+    }
+
+    public User setRoles(String role) {
+        this.roles = role;
+        return this;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public User setDob(Date dob) {
+        this.dob = dob;
+        return this;
+    }
+
+    public String getCni() {
+        return cni;
+    }
+
+    public User setCni(String cni) {
+        this.cni = cni;
+        return this;
+    }
 }
