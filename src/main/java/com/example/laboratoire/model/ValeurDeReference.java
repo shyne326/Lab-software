@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -42,10 +43,10 @@ public class ValeurDeReference {
     @Column(name="valid_high")
     private int validHigh;
    
-    @ManyToOne
-    @JoinColumn(name="test_id") //  This line is optional since test_id is the default
+    @OneToOne
     @JsonIgnore
     private Test test;
+    
     @Column(name="created_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;

@@ -5,8 +5,6 @@
  */
 package com.example.laboratoire.controller;
 
-import com.example.laboratoire.model.Sexe;
-import com.example.laboratoire.model.Sigle;
 import com.example.laboratoire.model.User;
 import com.example.laboratoire.repository.UserRepository;
 import java.util.ArrayList;
@@ -45,15 +43,13 @@ public class UserController {
        return userRepo.findById(id).get();
    }
    
-   @RequestMapping(value="/{sexId}/{sigleId}/users", method = RequestMethod.POST)
-   public User store(@RequestBody User pan, @PathVariable("sexId") int sexId, @PathVariable("sigleId") int sigleId){
+   @RequestMapping(value="/users", method = RequestMethod.POST)
+   public User store(@RequestBody User usr){
        
        User u = null;
        u = userRepo.save(
-               pan.setStatutVie(true)
-                       .setSex(new Sexe(sexId))
-                       .setSigle(new Sigle(sigleId))
-                       .setCreatedOn(new Date())
+               usr.setStatutVie(true)
+                   .setCreatedOn(new Date())
                        .setUpdatedOn(new Date())
        );
        
@@ -62,13 +58,11 @@ public class UserController {
        );
    }
    
-   @RequestMapping(value="/{sexId}/{sigleId}/users/{id}", method = RequestMethod.PATCH)
+   @RequestMapping(value="/users/{id}", method = RequestMethod.PATCH)
    public User update(@RequestBody User user, @PathVariable("sexId") int sexId, @PathVariable("sigleId") int sigleId){
        
        return userRepo.save(
-               user.setSex(new Sexe(sexId))
-                   .setSigle(new Sigle(sigleId))
-                   .setUpdatedOn(new Date())
+               user.setUpdatedOn(new Date())
        );
    }
    

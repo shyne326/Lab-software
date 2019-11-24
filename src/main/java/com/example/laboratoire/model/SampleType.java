@@ -37,7 +37,6 @@ public class SampleType {
     private String name;
     
     @ManyToMany(mappedBy = "sampleTypes")
-    @JsonIgnoreProperties({"testsEffectues","updatedOn","createdOn","alive"})
     private java.util.List<Test> testsThatCanBeConducted;
     
     @OneToMany(mappedBy = "sampleType")

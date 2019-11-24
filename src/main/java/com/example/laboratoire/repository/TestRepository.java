@@ -15,6 +15,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface TestRepository extends CrudRepository<Test, Long>{
     
+    @Override
     public Optional<Test> findById(Long id);
     
     public Iterable<Test> findByStatutVie(boolean statutVie);

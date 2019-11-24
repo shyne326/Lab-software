@@ -45,11 +45,11 @@ public class ValeurDeReferenceController {
    }
    
    @RequestMapping(value="tests/{testId}/references", method = RequestMethod.POST)
-   public ValeurDeReference store(@RequestBody ValeurDeReference pan, @PathVariable("testId") Long testId){
+   public ValeurDeReference store(@RequestBody ValeurDeReference pan, @PathVariable("testId") int testId){
        
        return referenceRepo.save(
                pan.setStatutVie(true)
-                       .setTest(new Test(testId))
+                  .setTest(new Test(testId))
                   .setCreatedOn(new Date())
                   .setUpdatedOn(new Date())
        );

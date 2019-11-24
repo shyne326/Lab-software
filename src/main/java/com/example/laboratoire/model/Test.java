@@ -7,12 +7,8 @@ package com.example.laboratoire.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,10 +17,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 
 /**
@@ -34,43 +31,40 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="test")
-//@org.hibernate.annotations.NaturalIdCache
-//@org.hibernate.annotations.Cache(
-//    usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE
-//)
 public class Test {
- /* This is to hold */   
-    @javax.persistence.Transient
-    private List<Integer> testIds ;
-
-    public List<Integer> getTestIds() {
-        return testIds;
+    
+    ///////////////////////
+    @Transient
+    private int sectionId;
+    
+    public int getSectionId(){
+        return sectionId;
     }
-
-    public void setTestIds(List<Integer> testIds) {
-        this.testIds = testIds;
+    public Test setSectionId(int s){
+        this.sectionId = s;
+        return this;
     }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    //@NaturalId
+    private int id;
+   
     private String name;
     private String description;
     private String unitOfMeasurement; // May be changed later to separate table
     private long price;
     
-    @OneToMany(mappedBy = "test")
-    private List<ValeurDeReference> valeurDereferences;
+    @OneToOne(mappedBy = "test")
+    ValeurDeReference valeurDereference;
     
     @ManyToMany
     @JsonIgnoreProperties("testsThatCanBeConducted")
     private List<SampleType> sampleTypes; // May not be used now
     
+    @ManyToMany(mappedBy="tests")
+    private List<Sample> samples;
+    
     @ManyToOne
-    @JoinColumn(name="section_id")
-    @JsonIgnoreProperties("tests")
     private Section section;
     
     @Column(name="created_on")
@@ -80,44 +74,40 @@ public class Test {
     @Column(name="updated_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
+    
     @Column(name="statut_vie")
     @JsonIgnore
     private boolean statutVie;
-    @OneToMany( mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)//@JsonIgnoreProperties("test")
-    @JsonIgnoreProperties("test")
-    private List<TestEffectue> testsEffectues = new ArrayList();
-    
-    @ManyToMany
-    @JsonIgnore
-    private List<Panel> panels;
-    
+     
     public Test() {
     }
 
-    public Test(Long id){
-        this.id = id;
+    public Test(String name){
+        this.name = name;
+    }
+    public Test(int testId){
+        this.id = testId;
     }
     
-    public Test(Long id, String name, String description, String unitOfMeasurement, long price, List<ValeurDeReference> valeurDereferences, List<SampleType> sampleTypes, Section section, Date createdOn, Date updatedOn, boolean statutVie, List<Panel> panels) {
+    public Test(int id, String name, String description, String unitOfMeasurement, long price, ValeurDeReference valeurDereference, List<SampleType> sampleTypes, Section section, Date createdOn, Date updatedOn, boolean statutVie) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.unitOfMeasurement = unitOfMeasurement;
         this.price = price;
-        this.valeurDereferences = valeurDereferences;
+        this.valeurDereference = valeurDereference;
         this.sampleTypes = sampleTypes;
         this.section = section;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
-        this.panels = panels;
         this.statutVie = statutVie;
     } 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public Test setId(Long id) {
+    public Test setId(int id) {
         this.id = id;
         return this;
     }
@@ -159,12 +149,12 @@ public class Test {
         return this;
     }
 
-    public List<ValeurDeReference> getValeurDereferences() {
-        return valeurDereferences;
+    public ValeurDeReference getValeurDereference() {
+        return valeurDereference;
     }
 
-    public Test setValeurDereferences(List<ValeurDeReference> valeurDereferences) {
-        this.valeurDereferences = valeurDereferences;
+    public Test setValeurDereference(ValeurDeReference valeurDereferences) {
+        this.valeurDereference = valeurDereferences;
         return this;
     }
 
@@ -173,10 +163,10 @@ public class Test {
     }
 
     public Test setSection(Section section) {
-        this.section = section;
+       this.section = section;
         return this;
     }
-
+    
     public Date getCreatedOn() {
         return createdOn;
     }
@@ -203,25 +193,8 @@ public class Test {
         this.sampleTypes = sampleTypes;
         return this;
     }
-
-    public List<TestEffectue> getTestsEffectues() {
-        return this.testsEffectues;
-    }
-
-    public Test setTestsEffectues(List<TestEffectue> samples) {
-        this.testsEffectues = samples;
-        return this;
-    }
-
-    public List<Panel> getPanels() {
-        return panels;
-    }
-
-    public Test setPanels(List<Panel> panels) {
-        this.panels = panels;
-        return this;
-    }
-
+    
+    
     public boolean isAlive() {
         return statutVie;
     }
@@ -230,55 +203,14 @@ public class Test {
         this.statutVie = statutVie;
         return this;
     }
-    
-    
-    
-    
-    
-    
-    //*******************************************************************//
-    // Attaching and Detaching tests from samples
-//    
-//     public void addSample(Sample sample) {
-//        TestEffectue testAeffectuer = new TestEffectue(sample, this);
-//        testsEffectues.add(testAeffectuer);
-//        sample.getTestsEffectues().add(testAeffectuer);
-//    }
-// 
-//    public void removeTest(Sample sample) {
-//        for (Iterator<TestEffectue> iterator = testsEffectues.iterator();
-//             iterator.hasNext(); ) {
-//            TestEffectue te = iterator.next();
-// 
-//            if (te.getTest().equals(this) &&
-//                    te.getSample().equals(sample)) {
-//                iterator.remove();
-//                te.getSample().getTestsEffectues().remove(te);
-//                te.setTest(null);
-//                te.setSample(null);
-//            }
-//        }
-//    }
-    
-    //********************************************************//
-    
-    
-    
-    
-    
-    
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Test t = (Test) o;
-        return Objects.equals(name, t.name);
+
+    public List<Sample> getSamples() {
+        return samples;
     }
- 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
+
+    public Test setSamples(List<Sample> samples) {
+        this.samples = samples;
+        return this;
     }
     
     

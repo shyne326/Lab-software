@@ -7,7 +7,6 @@ package com.example.laboratoire.controller;
 
 import com.example.laboratoire.model.Section;
 import com.example.laboratoire.model.Test;
-import com.example.laboratoire.model.TestEffectue;
 import com.example.laboratoire.repository.TestRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,29 +33,9 @@ public class TestController {
    public List<Test> index(){
        
        List<Test> list = new ArrayList();
-       
-       // Removing samples from tests returned to avoid recursion
-       Iterable<Test> tests = testRepo.findByStatutVie(true);
-       for(Test s: tests){
-           List<TestEffectue> tes = s.getTestsEffectues();
-           s.setTestsEffectues(null);
-           for(TestEffectue te: tes){
-               //te.setTest(null);
-               te.getSample().setTestsEffectues(null);
-           }
-           s.setTestsEffectues(tes);
-           
-//           tes.stream().map((te) -> {
-//               te.setSample(null);
-//               return te;
-//           }).forEachOrdered((te) -> {
-//               te.getTest().setTestsEffectues(tes);
-//           });
-            list.add(s);
-       }
-     
-      // samples.forEach(list::add);
-       
+      
+       testRepo.findAll().forEach(list::add);
+  
        return list;
    }
    
@@ -65,20 +44,16 @@ public class TestController {
        
        return testRepo.findById(id).get();
    }
+
    
-//   @RequestMapping("/{sampleTypeId}/tests")
-//   public List<Test> getBySampleType(@PathVariable("sampleTypeId") int sampleTypeId){
-//       
-//       return testRepo.findBySampleTypeId(sampleTypeId).get();
-//   }
-   
-   @RequestMapping(value="sections/{sectionId}/tests", method = RequestMethod.POST)
-   public Test store(@RequestBody Test test, @PathVariable("sectionId") int sectionId){
+   @RequestMapping(value="/tests", method = RequestMethod.POST)
+   public Test store(@RequestBody Test test){
        
        
        return testRepo.save(
                test.setStatutVie(true)
-                  .setSection(new Section(sectionId))
+                     //  .setSampleTypes(new SampleType(test.getSampleTypeId()))  Not a must
+                       .setSection(new Section(test.getSectionId()))
                   .setCreatedOn(new Date())
                   .setUpdatedOn(new Date())
        );

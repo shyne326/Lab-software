@@ -6,7 +6,6 @@
 package com.example.laboratoire.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.DiscriminatorValue;
@@ -33,8 +32,8 @@ public class Patient extends User{
         super(id);
     }
 
-    public Patient(List<Sample> samples, int id, String firstName, String lastName, Sexe sex, Sigle sigle, Date dateOfBirth, String nationality, String idCardNumber, String picture, String address, String phone, String codeUtilisateur, String email, String password, Date created_on, Date updated_on, boolean statutVie) {
-        super(id, firstName, lastName, sigle, sex, dateOfBirth, nationality, idCardNumber, picture, address, phone, codeUtilisateur, email, password, created_on, updated_on, statutVie);
+    public Patient(List<Sample> samples, int id, String firstName, String lastName, String sex, String sigle, Date dob, String roles, String nationality, String idCardNumber, String picture, String address, String phone, String codeUtilisateur, String email, String password, Date created_on, Date updated_on, boolean statutVie) {
+        super(id, firstName, lastName, sigle, sex, dob, roles, nationality, idCardNumber, picture, address, phone, codeUtilisateur, email, password, created_on, updated_on, statutVie);
         this.samples = samples;
     }
 
@@ -43,10 +42,10 @@ public class Patient extends User{
         super.setId(user.getId());
         super.setFirstName(user.getFirstName());
         super.setLastName(user.getLastName());
-        super.setDateOfBirth(user.getDateOfBirth());
+        super.setDob(user.getDob());
         super.setNationality(user.getNationality());
-        super.setIdCardNumber(user.getIdCardNumber());
-        super.setPicture(user.getPicture());
+        super.setCni(user.getCni());
+        super.setPhoto(user.getPhoto());
         super.setAddress(user.getAddress());
         super.setPhone(user.getPhone());
         super.setCodeUtilisateur(user.getCodeUtilisateur());

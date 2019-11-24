@@ -5,6 +5,7 @@
  */
 package com.example.laboratoire.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.List;
@@ -35,8 +36,9 @@ public class Section {
     private String description;
     
     @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties({"section","sampleTypes", "testsEffectues", "description","valeurDereferences","alive"})
+    @JsonIgnore
     private java.util.List<Test> tests;
+    
     @Column(name="created_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
@@ -64,7 +66,6 @@ public class Section {
     }
     
     
-
     public int getId() {
         return id;
     }

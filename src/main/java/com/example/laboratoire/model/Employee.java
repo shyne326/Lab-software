@@ -45,8 +45,8 @@ public class Employee extends User{
         super(id);
     }
 
-    public Employee(double salary, String roles, List<Sample> conductedSamples, List<Result> validatedResults, int id, String firstName, String lastName, Sigle sigle, Sexe sex, Date dateOfBirth, String nationality, String idCardNumber, String picture, String address, String phone, String codeUtilisateur, String email, String password, Date created_on, Date updated_on, boolean statutVie) {
-        super(id, firstName, lastName, sigle, sex, dateOfBirth, nationality, idCardNumber, picture, address, phone, codeUtilisateur, email, password, created_on, updated_on, statutVie);
+    public Employee(double salary, String roles, List<Sample> conductedSamples, List<Result> validatedResults, int id, String firstName, String lastName, String sigle, String sex, Date dob, String nationality, String cni, String picture, String address, String phone, String codeUtilisateur, String email, String password, Date created_on, Date updated_on, boolean statutVie) {
+        super(id, firstName, lastName, sigle, sex, dob, roles, nationality, cni, picture, address, phone, codeUtilisateur, email, password, created_on, updated_on, statutVie);
         this.salary = salary;
         this.roles = roles;
         this.conductedSamples = conductedSamples;
@@ -58,10 +58,10 @@ public class Employee extends User{
         super.setId(user.getId());
         super.setFirstName(user.getFirstName());
         super.setLastName(user.getLastName());
-        super.setDateOfBirth(user.getDateOfBirth());
+        super.setDob(user.getDob());
         super.setNationality(user.getNationality());
-        super.setIdCardNumber(user.getIdCardNumber());
-        super.setPicture(user.getPicture());
+        super.setCni(user.getCni());
+        super.setPhoto(user.getPhoto());
         super.setAddress(user.getAddress());
         super.setPhone(user.getPhone());
         super.setCodeUtilisateur(user.getCodeUtilisateur());

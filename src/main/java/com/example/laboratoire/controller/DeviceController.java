@@ -50,7 +50,10 @@ public class DeviceController {
    @RequestMapping(value="/devices", method = RequestMethod.POST)
    public Device store(@RequestBody Device dev){
        
-       return deviceRepo.save(dev.setStatutVie(true));
+       return deviceRepo.save(dev.setStatutVie(true)
+               .setCreatedOn(new Date())
+               .setUpdatedOn(new Date())
+       );
    }
    
    @RequestMapping(value="/devices/{id}", method = RequestMethod.PATCH)

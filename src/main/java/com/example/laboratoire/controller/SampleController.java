@@ -5,14 +5,16 @@
  */
 package com.example.laboratoire.controller;
 
+import com.example.laboratoire.model.Employee;
 import com.example.laboratoire.model.Patient;
 import com.example.laboratoire.model.Sample;
-import com.example.laboratoire.model.TestEffectue;
+import com.example.laboratoire.model.SampleType;
+import com.example.laboratoire.model.Test;
 import com.example.laboratoire.repository.SampleRepository;
+import com.example.laboratoire.repository.TestRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,33 +32,14 @@ public class SampleController {
     
     @Autowired
     SampleRepository sampleRepo;
+    @Autowired
+    TestRepository testRepo;
     
    @RequestMapping("/samples")
    public List<Sample> index(){
        
        List<Sample> list = new ArrayList();
-       
-       // Removing samples from tests returned to avoid recursion
-       Iterable<Sample> samples = sampleRepo.findByStatutVie(true);
-       for(Sample s: samples){
-           List<TestEffectue> tes = s.getTestsEffectues();
-           s.setTestsEffectues(null);
-           for(TestEffectue te: tes){
-               //te.setSample(null);
-               te.getTest().setTestsEffectues(null);
-           }
-           s.setTestsEffectues(tes);
-           
-//           tes.stream().map((te) -> {
-//               te.setSample(null);
-//               return te;
-//           }).forEachOrdered((te) -> {
-//               te.getTest().setTestsEffectues(tes);
-//           });
-            list.add(s);
-       }
-     
-      // samples.forEach(list::add);
+       sampleRepo.findByStatutVie(true).forEach(list::add);
        
        return list;
    }
@@ -67,15 +50,25 @@ public class SampleController {
        return sampleRepo.findById(id).get();
    }
    
-   @RequestMapping(value="patients/{patientId}/samples", method = RequestMethod.POST)
-   public Sample store(@RequestBody Sample pan, @PathVariable("patientId") int patientId){
+   @RequestMapping(value="/samples", method = RequestMethod.POST)
+   public Sample store(@RequestBody Sample sample){
+       
+
+        
+        
+        
+        // This block of code here below will be handled with care
        
        return sampleRepo.save(
-               pan.setStatutVie(true)
-                       .setPatient(new Patient(patientId))
+               sample.setStatutVie(true)
+                       .setSampleType(new SampleType(sample.getSampleTypeId()))
+                       .setPatient(new Patient(sample.getPatientId()))
+                       .setLabTechnician(new Employee(sample.getEmployeeId()))
                   .setCreatedOn(new Date())
                   .setUpdatedOn(new Date())
        );
+       
+       /*********************/
    }
    
    @RequestMapping(value="/samples/{id}", method = RequestMethod.PATCH)

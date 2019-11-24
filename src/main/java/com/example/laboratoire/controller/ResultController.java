@@ -6,6 +6,8 @@
 package com.example.laboratoire.controller;
 
 import com.example.laboratoire.model.Result;
+import com.example.laboratoire.model.Sample;
+import com.example.laboratoire.model.Test;
 import com.example.laboratoire.repository.ResultRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,10 +46,13 @@ public class ResultController {
    }
    
    @RequestMapping(value="/results", method = RequestMethod.POST)
-   public Result store(@RequestBody Result pan){
+   public Result store(@RequestBody Result res){
        
        return resultRepo.save(
-               pan.setStatutVie(true)
+               res
+                  .setSample(new Sample(res.getSampleId()))
+                  .setTest(new Test(res.getTestId()))
+                  .setStatutVie(true)
                   .setCreatedOn(new Date())
                   .setUpdatedOn(new Date())
        );

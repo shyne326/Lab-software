@@ -6,8 +6,6 @@
 package com.example.laboratoire.controller;
 
 import com.example.laboratoire.model.Employee;
-import com.example.laboratoire.model.Sexe;
-import com.example.laboratoire.model.Sigle;
 import com.example.laboratoire.repository.EmployeeRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,13 +43,11 @@ public class EmployeeController {
        return employeeRepo.findById(id).get();
    }
    
-   @RequestMapping(value="/{sexId}/{sigleId}/employees", method = RequestMethod.POST)
-   public Employee store(@RequestBody Employee emp, @PathVariable("sexId") int sexId, @PathVariable("sigleId") int sigleId){
+   @RequestMapping(value="/employees", method = RequestMethod.POST)
+   public Employee store(@RequestBody Employee emp){
        
               Employee e = employeeRepo.save(
               (Employee) emp.setStatutVie(true)
-                               .setSex(new Sexe(sexId))
-                               .setSigle(new Sigle(sigleId))
                                .setCreatedOn(new Date())
                                .setUpdatedOn(new Date())
        );
@@ -62,10 +58,10 @@ public class EmployeeController {
    }
    
    @RequestMapping(value="/employees/{id}", method = RequestMethod.PATCH)
-   public Employee update(@RequestBody Employee employee){
+   public Employee update(@RequestBody Employee emp){
        
-       return employeeRepo.save(
-               (Employee)employee.setUpdatedOn(new Date())
+            return employeeRepo.save(
+              (Employee) emp.setUpdatedOn(new Date())
        );
    }
    

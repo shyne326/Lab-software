@@ -7,12 +7,9 @@ package com.example.laboratoire.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,18 +32,19 @@ public class Device {  // Device or Method, this will also serve as name of meth
     private int id;
     
     private String name;
-    private String description;
-    
-    @OneToMany(mappedBy =  "deviceUsed", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<TestEffectue> testsEffectues;
+    private String description;
+
     @Column(name="created_on")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date createdOn;
     @Column(name="updated_on")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date updatedOn;
     @Column(name="statut_vie")
+    @JsonIgnore
     private boolean statutVie;
     
     public Device(){}
@@ -55,16 +53,14 @@ public class Device {  // Device or Method, this will also serve as name of meth
         this.id = id;
         this.name = "";
         this.description = "";
-        this.testsEffectues = null;
     }
     
     
 
-    public Device(int id, String name, String description, List<TestEffectue> testsEffectues, Date createdOn, Date updatedOn, boolean statutVie) {
+    public Device(int id, String name, String description, Date createdOn, Date updatedOn, boolean statutVie) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.testsEffectues = testsEffectues;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
         this.statutVie = statutVie;
@@ -98,19 +94,10 @@ public class Device {  // Device or Method, this will also serve as name of meth
         return this;
     }
 
-    public List<TestEffectue> getTestsEffectues() {
-        return testsEffectues;
-    }
-
-    public Device setTestsEffectues(List<TestEffectue> testsEffectues) {
-        this.testsEffectues = testsEffectues;
-        return this;
-    }
-
     public Date getCreatedOn() {
         return createdOn;
     }
-
+    
     public Device setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
         return this;

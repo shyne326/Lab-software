@@ -7,22 +7,23 @@ package com.example.laboratoire.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -33,10 +34,79 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="sample")
 public class Sample {
- 
+    
+   // Employee holder id for creating a patient during Sample posting
+    @javax.persistence.Transient
+   private int employeeId;
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+    
+    
+    //////////////////////////////////////////////////
+    @javax.persistence.Transient
+    private List<Long> testIds;
+
+    public List<Long> getTestIds() {
+        return testIds;
+    }
+
+    public void setTestIds(List<Long> testIds) {
+        this.testIds = testIds;
+    }
+    
+    ////////////////////////////////////////
+    @Transient
+    private int sampleTypeId;
+
+    public int getSampleTypeId() {
+        return sampleTypeId;
+    }
+
+    public Sample setSampleTypeId(int sampleTypeId) {
+        this.sampleTypeId = sampleTypeId;
+        return this;
+    }
+    ////////////////////////////////////////////////
+    
+    @Transient
+    private int patientId;
+    
+    public int getPatientId(){
+        return patientId;
+    }
+    public Sample setPatientId(int p){
+        this.patientId = p;
+        return this;
+    }
+    
+   /////////////////////////////////////////////////////
+
+     @Transient
+    private int labTechnicianId;
+    
+    public int getLabTechnicianId(){
+        return labTechnicianId;
+    }
+    public Sample setLabTechnicianId(int p){
+        this.labTechnicianId = p;
+        return this;
+    }    
+    /************************************************************************
+     *  
+     */
+    
+
+      
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+    
     @ManyToOne
     @NotNull
     private Patient patient;
@@ -49,13 +119,14 @@ public class Sample {
     private SampleType sampleType;
     
     private String requester;
-    private String requesterAddress; // Or Institution
+  //  private String requesterAddress; // Or Institution
     private String note;
     
+    @OneToMany(mappedBy = "sample", cascade = CascadeType.ALL)
+    private List<Result> results;
     
-    @OneToMany(mappedBy = "sample", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("sample")
-    private java.util.List<TestEffectue> testsEffectues = new ArrayList();
+    @ManyToMany
+    private List<Test> tests = new ArrayList();
     
     @Column(name="created_on")
     @Temporal(TemporalType.TIMESTAMP)
@@ -69,10 +140,13 @@ public class Sample {
     public Sample() {
     }
 
-    public Sample(Long id){
+    public Sample(int id){
         this.id = id;
+        this.patient = null;
+        this.labTechnician = null;
+        this.sampleType = null;
     }
-    public Sample(Long id, Patient patient, Employee labTechnician, SampleType sampleType, Date createdOn, Date updatedOn, boolean statutVie) {
+    public Sample(int id, Patient patient, Employee labTechnician, SampleType sampleType, Date createdOn, Date updatedOn, boolean statutVie) {
         this.id = id;
         this.patient = patient;
         this.labTechnician = labTechnician;
@@ -82,11 +156,11 @@ public class Sample {
         this.statutVie = statutVie;
     }
     
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public Sample setId(Long id) {
+    public Sample setId(int id) {
         this.id = id;
         return this;
     }
@@ -106,15 +180,6 @@ public class Sample {
 
     public Sample setSampleType(SampleType sampleType) {
         this.sampleType = sampleType;
-        return this;
-    }
-
-    public List<TestEffectue> getTestsEffectues() {
-        return testsEffectues;
-    }
-
-    public Sample setTestsEffectues(List<TestEffectue> tests) {
-        this.testsEffectues = tests;
         return this;
     }
 
@@ -163,14 +228,6 @@ public class Sample {
         return this;
     }
 
-    public String getRequesterAddress() {
-        return requesterAddress;
-    }
-
-    public void setRequesterAddress(String requesterAddress) {
-        this.requesterAddress = requesterAddress;
-    }
-
     public String getNote() {
         return note;
     }
@@ -179,53 +236,21 @@ public class Sample {
         this.note = note;
     }
 
-    
-    
-    
-  //*******************************************************************//
-    // Attaching and Detaching tests from samples
-    
-     public void addTest(Test test) {
-        TestEffectue testAeffectuer = new TestEffectue(this, test);
-        testsEffectues.add(testAeffectuer);
-        test.getTestsEffectues().add(testAeffectuer);
+    public List<Result> getResults() {
+        return results;
     }
- 
-    public void removeTest(Test test) {
-        for (Iterator<TestEffectue> iterator = testsEffectues.iterator();
-             iterator.hasNext(); ) {
-            TestEffectue te = iterator.next();
- 
-            if (te.getSample().equals(this) &&
-                    te.getTest().equals(test)) {
-                iterator.remove();
-                te.getTest().getTestsEffectues().remove(te);
-                te.setSample(null);
-                te.setTest(null);
-            }
-        }
+
+    public void setResults(List<Result> results) {
+        this.results = results;
     }
-    
-    //********************************************************//
-    
-    
-    
-   
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
- 
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Sample s = (Sample) o;
-        return java.util.Objects.equals(id, s.id);
+
+    public List<Test> getTests() {
+        return tests;
     }
- 
-    @Override
-    public int hashCode() {
-        return java.util.Objects.hash(id);
-    
+
+    public void setTests(List<Test> tests) {
+        this.tests = tests;
     }
-    
+
+       
 }

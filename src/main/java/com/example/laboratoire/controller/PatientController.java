@@ -6,8 +6,6 @@
 package com.example.laboratoire.controller;
 
 import com.example.laboratoire.model.Patient;
-import com.example.laboratoire.model.Sexe;
-import com.example.laboratoire.model.Sigle;
 import com.example.laboratoire.repository.PatientRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,13 +43,11 @@ public class PatientController {
        return patientRepo.findById(id).get();
    }
    
-   @RequestMapping(value="/{sexId}/{sigleId}/patients", method = RequestMethod.POST)
-   public Patient store(@RequestBody Patient patient, @PathVariable("sexId") int sexId, @PathVariable("sigleId") int sigleId){
+   @RequestMapping(value="/patients", method = RequestMethod.POST)
+   public Patient store(@RequestBody Patient patient){
        
        Patient p = patientRepo.save(
               (Patient) patient.setStatutVie(true)
-                               .setSex(new Sexe(sexId))
-                               .setSigle(new Sigle(sigleId))
                                .setCreatedOn(new Date())
                                .setUpdatedOn(new Date())
        );
@@ -62,10 +58,13 @@ public class PatientController {
        
    }
    
-   @RequestMapping(value="/patients/{id}", method = RequestMethod.PATCH)
+   @RequestMapping(value="/patients/{id}", method = RequestMethod.PUT)
    public Patient update(@RequestBody Patient patient){
        
-       return patientRepo.save((Patient)patient.setUpdatedOn(new Date()));
+       return patientRepo.save(
+              (Patient) patient.setStatutVie(true)
+                               .setUpdatedOn(new Date())
+       );
    }
    
 

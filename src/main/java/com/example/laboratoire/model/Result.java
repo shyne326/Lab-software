@@ -13,10 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -26,57 +26,93 @@ import javax.persistence.TemporalType;
 @Table(name="result")
 public class Result {
     
+    //////////////////////////////////////////////
+
+    
+    //////////////////////////////////////////////
+    
+    @Transient
+    private int sampleId;
+    
+    public int getSampleId(){
+        return this.sampleId;
+    }
+    public Result setSampleId(int s){
+        this.sampleId = s;
+        return this;
+    }
+    ///////////////////////////////////////////////
+    @Transient
+    private int testId;
+    
+    public int getTestId(){
+        return this.testId;
+    }
+    public Result setTestId(int t){
+        this.sampleId = t;
+        return this;
+    }
+    
+    
+    
+    
+    
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name="valeur_numeric")
-    private int valeurNumeric;
+    private double valeurNumeric;
     @Column(name="valeur_caractere")
     private String valeurCaractere;
-    private String notes;
     @Column(name="attached_file")
     private String attachedFile;
     private boolean abnormal;
     private boolean rejected; // accepted or rejected
     private String inference; // Added by the Director
+    
     @ManyToOne
     private Employee validator;
     
-    @OneToOne
-    @JsonIgnore
-    private TestEffectue testEffectue;
+    
+    @ManyToOne
+    private Sample sample;
+    @ManyToOne
+    private Test test;
+    
     @Column(name="created_on")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date createdOn;
     @Column(name="updated_on")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date updatedOn;
+    
     @JsonIgnore
     @Column(name="statutVie")
     private boolean statutVie;
     
-    // @Column(name = "referred_out")
-    // private boolean referredOut;
-    // @Column(name = "referral_reason") OF type TEXT
-    // private String referralReason;
-
     public Result() {
     }
     
     public Result(int id){
         this.id = id;
+        this.valeurCaractere = "";
+        this.valeurNumeric = 0.0;
+        
     }
 
-    public Result(int id, int valeur, String valeurCaractere, String notes, String attachedFile, boolean abnormal, boolean rejected, Employee validatedBy, TestEffectue testEffectue) {
+    public Result(int id, double valeur, String valeurCaractere, String inference, String attachedFile, boolean abnormal, boolean rejected, Employee validatedBy, Sample sample) {
         this.id = id;
         this.valeurNumeric = valeur;
         this.valeurCaractere = valeurCaractere;
-        this.notes = notes;
+        this.inference = inference;
         this.attachedFile = attachedFile;
         this.abnormal = abnormal;
         this.rejected = rejected;
         this.validator = validatedBy;
-        this.testEffectue = testEffectue;
+        this.sample = sample;
     }
 
 
@@ -89,11 +125,11 @@ public class Result {
         return this;
     }
 
-    public int getValeurNumeric() {
+    public double getValeurNumeric() {
         return valeurNumeric;
     }
 
-    public Result setValeurNumeric(int value) {
+    public Result setValeurNumeric(double value) {
         this.valeurNumeric = value;
         return this;
     }
@@ -106,12 +142,12 @@ public class Result {
         return this;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getInference() {
+        return inference;
     }
 
-    public Result setNotes(String notes) {
-        this.notes = notes;
+    public Result setInference(String notes) {
+        this.inference = notes;
         return this;
     }
 
@@ -133,14 +169,25 @@ public class Result {
         return this;
     }
 
-    public TestEffectue getTestEffectue() {
-        return testEffectue;
+    public Sample getSample() {
+        return this.sample;
     }
 
-    public Result setTestEffectue(TestEffectue testEffectue) {
-        this.testEffectue = testEffectue;
+    public Result setSample(Sample s) {
+        this.sample = s;
         return this;
     }
+
+    public Test getTest() {
+        return test;
+    }
+
+    public Result setTest(Test test) {
+        this.test = test;
+        return this;
+    }
+    
+    
 
     public boolean isRejected() {
         return rejected;
