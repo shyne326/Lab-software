@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -27,23 +26,11 @@ public class ValeurDeReference {
     @javax.persistence.GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
     
-    @Column(name = "value_type")
-    private String valueType;
-    private String gender;
-    @Column(name="min_age")
-    private double minAge;
-    @Column(name="max_age")
-    private double maxAge;
-    @Column(name="normal_low")
-    private int normalLow;
-    @Column(name="normal_high")
-    private int normalHigh;
-    @Column(name="valid_low")
-    private int validLow;
-    @Column(name="valid_high")
-    private int validHigh;
-   
-    @OneToOne
+    private String category;
+    private String value;
+    private String unit;
+    
+    @ManyToOne
     @JsonIgnore
     private Test test;
     
@@ -63,16 +50,11 @@ public class ValeurDeReference {
         this.id = id;
     }
     
-    public ValeurDeReference(int id, String valueType, String gender, double minAge, double maxAge, int normalLow, int normalHigh, int validLow, int validHigh, Test test, Date createdOn, Date updatedOn, boolean statutVie) {
+    public ValeurDeReference(int id, String cat, String unit, String value, Test test, Date createdOn, Date updatedOn, boolean statutVie) {
         this.id = id;
-        this.valueType = valueType;
-        this.gender = gender;
-        this.minAge = minAge;
-        this.maxAge = maxAge;
-        this.normalLow = normalLow;
-        this.normalHigh = normalHigh;
-        this.validLow = validLow;
-        this.validHigh = validHigh;
+        this.category = cat;
+        this.unit = unit;
+        this.value = value;
         this.test = test;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
@@ -90,77 +72,6 @@ public class ValeurDeReference {
         return this;
     }
 
-    public String getValueType() {
-        return valueType;
-    }
-
-    public ValeurDeReference setValueType(String valueType) {
-        this.valueType = valueType;
-        return this;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public ValeurDeReference setGender(String gender) {
-        this.gender = gender;
-        return this;
-    }
-
-    public double getMinAge() {
-        return minAge;
-    }
-
-    public ValeurDeReference setMinAge(double minAge) {
-        this.minAge = minAge;
-        return this;
-    }
-
-    public double getMaxAge() {
-        return maxAge;
-    }
-
-    public ValeurDeReference setMaxAge(double maxAge) {
-        this.maxAge = maxAge;
-        return this;
-    }
-
-    public int getNormalLow() {
-        return normalLow;
-    }
-
-    public ValeurDeReference setNormalLow(int normalLow) {
-        this.normalLow = normalLow;
-        return this;
-    }
-
-    public int getNormalHigh() {
-        return normalHigh;
-    }
-
-    public ValeurDeReference setNormalHigh(int normalHigh) {
-        this.normalHigh = normalHigh;
-        return this;
-    }
-
-    public int getValidLow() {
-        return validLow;
-    }
-
-    public ValeurDeReference setValidLow(int validLow) {
-        this.validLow = validLow;
-        return this;
-    }
-
-    public int getValidHigh() {
-        return validHigh;
-    }
-
-    public ValeurDeReference setValidHigh(int validHigh) {
-        this.validHigh = validHigh;
-        return this;
-    }
 
     public Test getTest() {
         return test;
@@ -170,6 +81,35 @@ public class ValeurDeReference {
         this.test = test;
         return this;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public ValeurDeReference setCategory(String category) {
+        this.category = category;
+        return this;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public ValeurDeReference setValue(String value) {
+        this.value = value;
+        return this;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public ValeurDeReference setUnit(String unit) {
+        this.unit = unit;
+        return this;
+    }
+    
+    
 
     public Date getCreatedOn() {
         return createdOn;

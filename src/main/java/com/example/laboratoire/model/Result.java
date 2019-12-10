@@ -6,6 +6,7 @@
 package com.example.laboratoire.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +28,16 @@ import javax.persistence.Transient;
 public class Result {
     
     //////////////////////////////////////////////
+@Transient
+private int validatorId;
 
+public int getValidatorId(){
+    return validatorId;
+}
+public Result setValidatorId(int val){
+    this.validatorId = val;
+    return this;
+}
     
     //////////////////////////////////////////////
     
@@ -49,7 +59,7 @@ public class Result {
         return this.testId;
     }
     public Result setTestId(int t){
-        this.sampleId = t;
+        this.testId = t;
         return this;
     }
     
@@ -61,23 +71,25 @@ public class Result {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name="valeur_numeric")
-    private double valeurNumeric;
-    @Column(name="valeur_caractere")
-    private String valeurCaractere;
+    
+    private String resultat;
+    
     @Column(name="attached_file")
     private String attachedFile;
-    private boolean abnormal;
-    private boolean rejected; // accepted or rejected
     private String inference; // Added by the Director
+    private boolean validated;
+    private String device;
+    private String reactif;
     
     @ManyToOne
     private Employee validator;
     
     
     @ManyToOne
+    @JsonIgnoreProperties({"results","createdOn","updatedOn"})
     private Sample sample;
     @ManyToOne
+    @JsonIgnoreProperties({"validatorId","sampleId","testId","description","price","sampleTypes","samples","section","createdOn","updatedOn","active"})
     private Test test;
     
     @Column(name="created_on")
@@ -98,19 +110,14 @@ public class Result {
     
     public Result(int id){
         this.id = id;
-        this.valeurCaractere = "";
-        this.valeurNumeric = 0.0;
         
     }
 
-    public Result(int id, double valeur, String valeurCaractere, String inference, String attachedFile, boolean abnormal, boolean rejected, Employee validatedBy, Sample sample) {
+    public Result(int id, String inference, boolean validated, String attachedFile, Employee validatedBy, Sample sample) {
         this.id = id;
-        this.valeurNumeric = valeur;
-        this.valeurCaractere = valeurCaractere;
         this.inference = inference;
         this.attachedFile = attachedFile;
-        this.abnormal = abnormal;
-        this.rejected = rejected;
+        this.validated = validated;
         this.validator = validatedBy;
         this.sample = sample;
     }
@@ -125,23 +132,25 @@ public class Result {
         return this;
     }
 
-    public double getValeurNumeric() {
-        return valeurNumeric;
+    public String getResultat() {
+        return resultat;
     }
 
-    public Result setValeurNumeric(double value) {
-        this.valeurNumeric = value;
+    public Result setResultat(String resultat) {
+        this.resultat = resultat;
         return this;
     }
+
+    public String getReactif() {
+        return reactif;
+    }
+
+    public Result setReactif(String reactif) {
+        this.reactif = reactif;
+        return this;
+    }
+
     
-    public String getValeurCaractere(){
-        return this.valeurCaractere;
-    }
-    public Result setValeurCaractere(String s){
-        this.valeurCaractere = s;
-        return this;
-    }
-
     public String getInference() {
         return inference;
     }
@@ -157,15 +166,6 @@ public class Result {
 
     public Result setAttachedFile(String attachedFile) {
         this.attachedFile = attachedFile;
-        return this;
-    }
-
-    public boolean isAbnormal() {
-        return abnormal;
-    }
-
-    public Result setAbnormal(boolean abnormal) {
-        this.abnormal = abnormal;
         return this;
     }
 
@@ -186,24 +186,13 @@ public class Result {
         this.test = test;
         return this;
     }
-    
-    
 
-    public boolean isRejected() {
-        return rejected;
+    public boolean isValidated() {
+        return validated;
     }
 
-    public Result setRejected(boolean rejected) {
-        this.rejected = rejected;
-        return this;
-    }
-
-    public Employee getValidatedBy() {
-        return validator;
-    }
-
-    public Result setValidatedBy(Employee validatedBy) {
-        this.validator = validatedBy;
+    public Result setValidated(boolean validated) {
+        this.validated = validated;
         return this;
     }
 
@@ -242,5 +231,15 @@ public class Result {
         this.statutVie = statutVie;
         return this;
     }
-           
+
+    public String getDevice() {
+        return device;
+    }
+
+    public Result setDevice(String device) {
+        this.device = device;
+        return this;
+    }
+      
+    
 }

@@ -1,0 +1,112 @@
+<form [formGroup]="form" *ngIf="sampleTypes" (ngSubmit)="onSubmit()" class="form-horizontal" role="form">
+
+<div class="container-fluid">
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!--  Brand and toggle get grouped for better mobile display -->
+           <div class="navbar-header">
+              
+           
+            <ul class="nav navbar-nav">
+    
+                <li><a>Echantillon <span style="color: red;">*</span></a> </li>
+                
+            </ul>
+        </div>
+        </div>
+    </nav>
+
+    <div class="container">
+         
+             <div class="form-group">
+             <label for="sampleType" class="control-label">Type d'echantillon</label>
+             <div class="row">
+                 <div class="col-sm-4">
+                  <select name="form" id="sampleType" formControlName="name" class="form-control">
+                      <option *ngFor="let sampleType of sampleTypes" value="{{sampleType.id}}">{{sampleType.name}}</option>
+                  </select>
+                  </div>
+
+                  <button class="btn btn-primary col-sm-1" type="button" (click)="listTestsForSelectedSample()">Ajouter</button>
+             </div>
+            </div>
+         
+
+         
+    <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!--  Brand and toggle get grouped for better mobile display -->
+               <div class="navbar-header">
+                  
+               
+                <ul class="nav navbar-nav">
+        
+                    <li><a>Tests disponible sur  {{selectedSampleTypeName}}<span style="color: red;">*</span></a> </li>
+                    
+                </ul>
+            </div>
+            </div>
+        </nav>
+
+        <br/><hr/>
+
+        <div  class="row" >
+            
+               <div formArrayName="testsCheckboxes"  *ngFor="let test of form.get('testsCheckboxes').controls; let i=index" class="col-sm-3">
+                   <div class="checkbox">
+                       <label>
+                           <input type="checkbox" [formControlName]="i">{{tests[i].name}}
+                       </label>
+                   </div>
+                </div>
+    
+        </div>
+         
+            
+        </div>
+
+
+        <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!--  Brand and toggle get grouped for better mobile display -->
+                   <div class="navbar-header">
+                      
+                    <ul class="nav navbar-nav">
+            
+                        <li><a>Ordre <span style="color: red;">*</span></a> </li>
+                        
+                    </ul>
+                </div>
+                </div>
+            </nav>
+    
+            <div class="row">
+    
+                <div class="form-group">
+                   <label for="requester" class="control-label col-sm-2"> Prescripteur:</label>
+                   <input type="text" class="form-control" class="col-sm-3" formControlName="requester">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="form-group">
+                        <label for="requester" class="control-label col-sm-2"> Note:</label>
+                        <textarea class="form-control" class="col-sm-3" rows="5" placeholder="Vous pouvez entrer une note soit une remarque ou autre choses vous estimez nécéssaire de noter.
+    
+    Ce champ n'est pas obligatoire" formControlName="note"></textarea>
+                     </div>
+                </div>
+
+           
+    </div>
+
+    <br>
+    <hr>
+    <div class="row" style="background-color: #eee; padding-top: 40px; padding-bottom: 20px;;">
+        <div class="col-md-2 col-md-offset-6">
+              <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Enregistre&nbsp;<span class="glyphicon glyphicon-send"></span></button>
+          </div>
+    </div>
+
+</form>

@@ -40,9 +40,9 @@ public class SectionController {
    @RequestMapping("/sections/{id}")
    public Section show(@PathVariable int id){
        
-       return sectionRepo.findById(id).get();
+           return sectionRepo.findById(id).get();
    }
-   
+     
    @RequestMapping(value="/sections", method = RequestMethod.POST)
    public Section store(@RequestBody Section pan){
        

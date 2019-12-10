@@ -5,6 +5,7 @@
  */
 package com.example.laboratoire.controller;
 
+import com.example.laboratoire.model.Employee;
 import com.example.laboratoire.model.Result;
 import com.example.laboratoire.model.Sample;
 import com.example.laboratoire.model.Test;
@@ -46,16 +47,27 @@ public class ResultController {
    }
    
    @RequestMapping(value="/results", method = RequestMethod.POST)
-   public Result store(@RequestBody Result res){
+   public boolean store(@RequestBody Result[] res){
        
-       return resultRepo.save(
-               res
-                  .setSample(new Sample(res.getSampleId()))
-                  .setTest(new Test(res.getTestId()))
+       boolean ok = false;
+       
+       for(Result result: res){
+           
+           resultRepo.save(
+               result
+                  .setSample(new Sample(result.getSampleId()))
+                  .setTest(new Test(result.getTestId()))
+                  .setValidator(new Employee(result.getValidatorId()))
+                       
                   .setStatutVie(true)
                   .setCreatedOn(new Date())
                   .setUpdatedOn(new Date())
        );
+           
+       }
+       ok = true;
+       
+       return ok;
    }
    
    @RequestMapping(value="/results/{id}", method = RequestMethod.PATCH)

@@ -1,0 +1,27 @@
+
+<div class="row">
+    <div class="panel panel-default" class="form-horizontal col-md-4 col-md-offset-4">
+        <div class="panel-heading">
+            <small>Notice: This service is for authorized users only. If you do not have the express authorization of the administrator, you must exit now.
+                The Laboratory prohibits unauthorized access, disclosure, duplication, modification, diversion, destruction, loss, misuse or theft of its
+                information
+            </small>
+        </div>
+        <div class="panel-body">
+        <div class="form-group">
+          <label for="" class="col-md-4">User Name : </label>
+          <input type="text" name="username" [(ngModel)]="username" class="form-control col-md-8">
+        </div>
+        <div class="form-group row">
+           <label for="" class="col-md-4">Password :</label>
+           <input type="password" name="password" [(ngModel)]="password" class="form-control col-md-8">
+        </div>
+        </div>
+        <div class="form-group">
+                <button (click)=checkLogin() class="btn btn-success">
+                        Login
+                      </button>
+        </div>
+       
+        </div>
+</div>

@@ -44,7 +44,7 @@ public class ValeurDeReferenceController {
        return referenceRepo.findById(id).get();
    }
    
-   @RequestMapping(value="tests/{testId}/references", method = RequestMethod.POST)
+   @RequestMapping(value="/references", method = RequestMethod.POST)
    public ValeurDeReference store(@RequestBody ValeurDeReference pan, @PathVariable("testId") int testId){
        
        return referenceRepo.save(

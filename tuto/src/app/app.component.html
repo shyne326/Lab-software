@@ -1,0 +1,95 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="body">
+  
+        <!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <!--  Brand and toggle get grouped for better mobile display -->
+       <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Laboratoire M.J.</a>
+       </div>
+    <!--  Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-right" id="myNavbar">
+        <ul class="nav navbar-nav">
+           
+            <li *ngIf="loginService.isUserLoggedIn()" class="active">
+                <a routerLink="/dashboard"><span class="glyphicon glyphicon-home" style="margin-right: 8px;"></span>Lab Dashboard</a>
+            </li>
+            <li class="dropdown" *ngIf="loginService.isUserLoggedIn()">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Echantillon
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a routerLink="/samples/create">Créer Echantillon</a></li>
+                  <li><a routerLink="/samples">Liste des échantillon</a></li>
+                  <li><a routerLink="/samples/edit/${id}">Modifier un échantillon</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown" *ngIf="loginService.isUserLoggedIn()">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Patient
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a routerLink="/patients/create">Créer un Patient</a></li>
+                  <li><a routerLink="/patients">Liste des patients</a></li>
+                 <!-- <li><a routerLink="/patients/${id}/edit">Modifier un patient</a></li> -->
+                </ul>
+            </li>
+            <li class="dropdown" *ngIf="loginService.isUserLoggedIn()">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Unités
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a routerLink="paillasse/3">Biochimie</a></li>
+                  <li><a routerLink="paillasse/4">Sérologie</a></li>
+                  <li><a routerLink="paillasse/5">Immuno-Hématologie</a></li>
+                  <li><a routerLink="paillasse/6">Bactériologie</a></li>
+                  <li><a routerLink="paillasse/7">Parasitologie</a></li>
+                  <li><a routerLink="paillasse/9">Elèctrophorèse</a></li>
+                  <li><a routerLink="paillasse/10">Hormonologie</a></li>
+                  <li><a routerLink="paillasse/11">Prelèvemenent</a></li>
+                </ul>
+            </li>
+         <!--   <li class="dropdown" *ngIf="loginService.isUserLoggedIn()">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Valider un Resultat</a></li>
+                </ul>
+            </li>
+          -->
+            <li *ngIf="loginService.isUserLoggedIn()"><a href="#">Administration</a></li>
+            <li *ngIf="loginService.isUserLoggedIn()"><a href="#">Aide</a></li>
+
+            <li *ngIf="loginService.isUserLoggedIn()"><a routerLink="logout">Logout</a></li>
+            <li *ngIf="!loginService.isUserLoggedIn()"><a routerLink="login">Login</a></li>
+
+        </ul>
+    </div>
+    </div>
+</nav>
+
+
+
+<!--- Page content -->
+   <router-outlet></router-outlet>
+
+</div>
+
+  <!-- Footer -->
+ <!-- <div class="container footer">
+        <footer>
+          <div class="row">
+            <div class="col-sm-12">
+               <p>Copyright &copy;2019</p>
+          </div>
+        </div>
+  
+        </footer>
+      
+    </div>
+
+  -->

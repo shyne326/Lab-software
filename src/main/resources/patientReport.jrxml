@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="88cfcafa-f0f7-49ea-ac84-f7ba997a2048">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="userId" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[
+-- WORKING SQL
+
+SELECT
+     user.`id` AS user_id,
+     user.`address` AS user_address,
+     user.`cni` AS user_cni,
+     user.`code_utilisateur` AS user_code_utilisateur,
+     user.`dob` AS user_dob,
+     user.`first_name` AS user_first_name,
+     user.`last_name` AS user_last_name,
+     user.`phone` AS user_phone,
+     user.`sex` AS user_sex,
+     user.`sigle` AS user_sigle,
+
+     sample.`id` AS sample_id,
+     sample.`created_on` AS sample_created_on,
+     sample.`requester` AS sample_requester,
+     sample.`lab_technician_id` AS sample_lab_technician_id,
+     sample.`patient_id` AS sample_patient_id,
+     sample.`sample_type_id` AS sample_sample_type_id,
+
+     test.`id` AS test_id,
+     test.`created_on` AS test_created_on,
+     test.`description` AS test_description,
+     test.`name` AS test_name,
+     test.`price` AS test_price,
+     test.`statut_vie` AS test_statut_vie,
+     test.`unit_of_measurement` AS test_unit_of_measurement,
+     test.`updated_on` AS test_updated_on,
+     test.`section_id` AS test_section_id,
+
+     sample_tests.`samples_id` AS sample_tests_samples_id,
+     sample_tests.`tests_id` AS sample_tests_tests_id,
+
+     result.`id` AS result_id,
+     result.`abnormal` AS result_abnormal,
+     result.`attached_file` AS result_attached_file,
+     result.`created_on` AS result_created_on,
+     result.`inference` AS result_inference,
+     result.`rejected` AS result_rejected,
+     result.`validated` AS result_validated,
+     result.`valeur_caractere` AS result_valeur_caractere,
+     result.`valeur_numerique` AS result_valeur_numerique,
+     result.`sample_id` AS result_sample_id,
+     result.`test_id` AS result_test_id,
+     result.`validator_id` AS result_validator_id,
+     result. `device` AS result_device
+FROM
+     `user` user INNER JOIN `sample` sample ON user.`id` = sample.`patient_id`
+     INNER JOIN `sample_tests` sample_tests ON sample.`id` = sample_tests.`samples_id`
+     INNER JOIN `result` result ON sample.`id` = result.`sample_id`
+     INNER JOIN `test` test ON result.`test_id` = test.`id`
+     AND sample_tests.`tests_id` = test.`id`
+WHERE
+     patient_id = $P{userId}]]>
+	</queryString>
+	<field name="user_id" class="java.lang.Integer"/>
+	<field name="user_address" class="java.lang.String"/>
+	<field name="user_cni" class="java.lang.String"/>
+	<field name="user_code_utilisateur" class="java.lang.String"/>
+	<field name="user_dob" class="java.sql.Date"/>
+	<field name="user_first_name" class="java.lang.String"/>
+	<field name="user_last_name" class="java.lang.String"/>
+	<field name="user_phone" class="java.lang.String"/>
+	<field name="user_sex" class="java.lang.String"/>
+	<field name="user_sigle" class="java.lang.String"/>
+	<field name="sample_id" class="java.lang.Integer"/>
+	<field name="sample_created_on" class="java.sql.Timestamp"/>
+	<field name="sample_requester" class="java.lang.String"/>
+	<field name="sample_lab_technician_id" class="java.lang.Integer"/>
+	<field name="sample_patient_id" class="java.lang.Integer"/>
+	<field name="sample_sample_type_id" class="java.lang.Integer"/>
+	<field name="test_id" class="java.lang.Integer"/>
+	<field name="test_created_on" class="java.sql.Timestamp"/>
+	<field name="test_description" class="java.lang.String"/>
+	<field name="test_name" class="java.lang.String"/>
+	<field name="test_price" class="java.lang.Long"/>
+	<field name="test_statut_vie" class="java.lang.Boolean"/>
+	<field name="test_unit_of_measurement" class="java.lang.String"/>
+	<field name="test_updated_on" class="java.sql.Timestamp"/>
+	<field name="test_section_id" class="java.lang.Integer"/>
+	<field name="sample_tests_samples_id" class="java.lang.Integer"/>
+	<field name="sample_tests_tests_id" class="java.lang.Integer"/>
+	<field name="result_id" class="java.lang.Integer"/>
+	<field name="result_abnormal" class="java.lang.Boolean"/>
+	<field name="result_attached_file" class="java.lang.String"/>
+	<field name="result_created_on" class="java.sql.Timestamp"/>
+	<field name="result_inference" class="java.lang.String"/>
+	<field name="result_rejected" class="java.lang.Boolean"/>
+	<field name="result_validated" class="java.lang.Boolean"/>
+	<field name="result_valeur_caractere" class="java.lang.String"/>
+	<field name="result_valeur_numerique" class="java.lang.Double"/>
+	<field name="result_sample_id" class="java.lang.Integer"/>
+	<field name="result_test_id" class="java.lang.Integer"/>
+	<field name="result_validator_id" class="java.lang.Integer"/>
+	<field name="result_device" class="java.lang.String"/>
+	<variable name="age" class="java.lang.Number">
+		<variableExpression><![CDATA[new java.util.Date().getYear()-$F{user_dob}.getYear()]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.util.Date().getYear()-$F{user_dob}.getYear()]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="147" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="554" height="144" uuid="8bd02dbd-2fc5-489c-86d9-bc0a34353095"/>
+				<imageExpression><![CDATA["C:\\Users\\CHRISTIAN\\Documents\\NetBeansProjects\\LaboMJ\\reports\\labo-banner.JPG"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="185" splitType="Stretch">
+			<elementGroup>
+				<elementGroup>
+					<elementGroup>
+						<elementGroup>
+							<elementGroup>
+								<elementGroup>
+									<textField>
+										<reportElement x="364" y="24" width="42" height="20" uuid="164b24b6-95ef-4480-9114-8a00bdc39ddf"/>
+										<textElement>
+											<font size="10" isBold="false"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{user_sigle}]]></textFieldExpression>
+									</textField>
+									<elementGroup>
+										<elementGroup>
+											<textField>
+												<reportElement x="464" y="24" width="71" height="20" uuid="f8d4748c-18aa-4c6f-8c09-5595964e6b62"/>
+												<textElement>
+													<font size="10" isBold="false"/>
+												</textElement>
+												<textFieldExpression><![CDATA[$F{user_last_name}]]></textFieldExpression>
+											</textField>
+											<textField>
+												<reportElement x="412" y="24" width="52" height="20" uuid="28945984-355c-4471-94ad-4f96eef5b43a"/>
+												<textElement>
+													<font size="10" isBold="false"/>
+												</textElement>
+												<textFieldExpression><![CDATA[$F{user_first_name}]]></textFieldExpression>
+											</textField>
+										</elementGroup>
+									</elementGroup>
+								</elementGroup>
+							</elementGroup>
+						</elementGroup>
+					</elementGroup>
+				</elementGroup>
+			</elementGroup>
+			<textField>
+				<reportElement x="79" y="34" width="135" height="20" uuid="bb726f85-d01d-4fd1-9109-176c1c8815f6"/>
+				<textFieldExpression><![CDATA[$F{sample_requester}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="74" width="61" height="20" uuid="99c9e472-523b-4df9-8c7f-e83544805e08"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Imprimé le: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="54" width="61" height="20" uuid="e35c8325-584e-44a1-ae99-eda205390ebc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dossier overt le: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="94" width="61" height="20" uuid="b7dbf0fc-9669-45aa-8011-0a3e59ab4c42"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Imprimé par: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="14" width="100" height="20" uuid="f307cdea-8479-448f-82a2-8dfae64089a0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODE DU DOSSIER: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="34" width="66" height="20" uuid="772ea1ee-00be-42d3-9999-d82815841253"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prescripteur:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="316" y="14" width="228" height="80" uuid="8463a45a-4b0d-4efb-a901-392e80cc79c4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="317" y="24" width="45" height="20" uuid="bd5d81b9-67a4-4068-9b41-506f27b849f2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Patient:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="44" width="38" height="20" uuid="25de1fde-c98f-4fd8-abdb-0de1c0e441c8"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Sexe: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="64" width="37" height="20" uuid="c6cc4398-b9e1-46ce-bb2b-4a2bfbad6fa4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Age:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="364" y="44" width="100" height="20" uuid="72ea7bc7-0ad0-4bee-bec6-ffeb928727ee"/>
+				<textFieldExpression><![CDATA[$F{user_sex}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="364" y="64" width="23" height="20" uuid="cdcf366d-8b8e-4398-b3eb-4f6d545c3ced"/>
+				<textFieldExpression><![CDATA[$V{age}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="387" y="64" width="17" height="20" uuid="6ebaf63c-8447-46ae-b39c-ddb4d973893f"/>
+				<text><![CDATA[ans]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="146" width="382" height="20" uuid="4eb5066d-360c-4138-a4d0-c868325a4c2f"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Tout le personnel du LABORATOIRE M.J. vous souhaite une bonne guérison]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="74" y="74" width="100" height="20" uuid="1f376b75-1784-4062-9c46-e58e137ab487"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="14" width="100" height="20" uuid="bf256073-9349-4dbc-89bb-f735430966ed"/>
+				<textFieldExpression><![CDATA[$F{user_code_utilisateur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="412" y="24" width="52" height="20" uuid="5dc7bb8b-ce26-4fc8-ba89-13f3f73fd734"/>
+				<textFieldExpression><![CDATA[$F{user_first_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="24" width="50" height="20" uuid="383dbad5-acf8-486b-aa81-70b0ad624c9d"/>
+				<textFieldExpression><![CDATA[$F{user_sigle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="464" y="24" width="73" height="20" uuid="6565950b-1ac6-414d-9d98-bea924f8be9a"/>
+				<textFieldExpression><![CDATA[$F{user_last_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="151" splitType="Stretch">
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="221" y="14" width="100" height="20" uuid="90d04293-0265-4dc5-8bf2-efca0e5cc0b8"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{test_name}.toUpperCase()]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{test_name}.toUpperCase()]]></patternExpression>
+			</textField>
+			<elementGroup>
+				<elementGroup>
+					<elementGroup>
+						<staticText>
+							<reportElement x="18" y="90" width="74" height="20" uuid="6620dce7-ab84-420e-bc9d-9325d69fff29"/>
+							<textElement>
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[P.S.A. Totale]]></text>
+						</staticText>
+						<staticText>
+							<reportElement x="19" y="51" width="99" height="20" uuid="1f5ff8b2-1fd0-4e33-a20b-26763e0f91c7"/>
+							<textElement>
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[METHODE UTILISEE:]]></text>
+						</staticText>
+						<line>
+							<reportElement x="19" y="110" width="514" height="1" uuid="49756af4-aea2-4a9a-9251-e16d65c5725b"/>
+							<graphicElement>
+								<pen lineWidth="0.5" lineStyle="Dotted"/>
+							</graphicElement>
+						</line>
+						<line>
+							<reportElement x="19" y="71" width="514" height="1" uuid="1c054c4e-fe89-4dd3-bd8b-f6c662662cdd"/>
+							<graphicElement>
+								<pen lineWidth="0.5" lineStyle="Dotted"/>
+							</graphicElement>
+						</line>
+						<staticText>
+							<reportElement x="19" y="128" width="100" height="20" uuid="1df3a38b-f6ea-4116-b3d6-1deb6c1ff572"/>
+							<textElement>
+								<font isBold="true"/>
+							</textElement>
+							<text><![CDATA[REMARQUE: ]]></text>
+						</staticText>
+					</elementGroup>
+				</elementGroup>
+			</elementGroup>
+			<textField>
+				<reportElement x="134" y="51" width="100" height="20" uuid="bd59206d-0d25-4771-a5f3-2969f907640f"/>
+				<textFieldExpression><![CDATA[$F{result_device}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="134" y="90" width="118" height="20" uuid="e6980327-171e-475b-bfc7-9234b1ce9664"/>
+				<textFieldExpression><![CDATA[$F{result_valeur_numerique}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="266" y="90" width="144" height="20" uuid="9c921d93-6571-4fd2-9b9a-2cae9fc6fb68"/>
+				<textFieldExpression><![CDATA[$F{result_valeur_caractere}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="134" y="128" width="100" height="20" uuid="dcbc4a97-7d1c-458a-a79b-8fe09cde6db4"/>
+				<textFieldExpression><![CDATA[$F{result_inference}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="18" y="10" width="100" height="20" uuid="de142785-0351-4816-80c4-26c61a32eadd"/>
+				<text><![CDATA[Fait à Douala         Le]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="121" y="10" width="100" height="20" uuid="7c231752-c71b-4cd7-a8a9-590e9d8e3f20"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="435" y="10" width="100" height="20" uuid="2e6215f6-71df-4d07-9081-7a6c02be30ea"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[SIGNATURE]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

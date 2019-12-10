@@ -14,9 +14,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -54,17 +54,23 @@ public class Test {
     private String unitOfMeasurement; // May be changed later to separate table
     private long price;
     
-    @OneToOne(mappedBy = "test")
-    ValeurDeReference valeurDereference;
+    @Column(name="prix_St")
+    private Integer prixSt;
+    
+    @OneToMany(mappedBy = "test")
+    @JsonIgnoreProperties({"test"})
+    List<ValeurDeReference> valeurDereferences;
     
     @ManyToMany
-    @JsonIgnoreProperties("testsThatCanBeConducted")
+    @JsonIgnoreProperties({"testsThatCanBeConducted","createdOn", "updatedOn","alive"})
     private List<SampleType> sampleTypes; // May not be used now
     
     @ManyToMany(mappedBy="tests")
+    @JsonIgnoreProperties({"tests"})
     private List<Sample> samples;
     
     @ManyToOne
+    @JsonIgnoreProperties({"createdOn", "updatedOn", "tests"})
     private Section section;
     
     @Column(name="created_on")
@@ -89,13 +95,14 @@ public class Test {
         this.id = testId;
     }
     
-    public Test(int id, String name, String description, String unitOfMeasurement, long price, ValeurDeReference valeurDereference, List<SampleType> sampleTypes, Section section, Date createdOn, Date updatedOn, boolean statutVie) {
+    public Test(int id, String name, String description, String unitOfMeasurement, long price, int prixST, List<ValeurDeReference> valeurDereferences, List<SampleType> sampleTypes, Section section, Date createdOn, Date updatedOn, boolean statutVie) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.unitOfMeasurement = unitOfMeasurement;
         this.price = price;
-        this.valeurDereference = valeurDereference;
+        this.prixSt = prixST;
+        this.valeurDereferences = valeurDereferences;
         this.sampleTypes = sampleTypes;
         this.section = section;
         this.createdOn = createdOn;
@@ -148,13 +155,22 @@ public class Test {
         this.price = price;
         return this;
     }
-
-    public ValeurDeReference getValeurDereference() {
-        return valeurDereference;
+    
+        public long getPrixSt() {
+        return prixSt;
     }
 
-    public Test setValeurDereference(ValeurDeReference valeurDereferences) {
-        this.valeurDereference = valeurDereferences;
+    public Test setPrixSt(int prixST) {
+        this.prixSt = prixST;
+        return this;
+    }
+
+    public List<ValeurDeReference> getValeurDereferences() {
+        return valeurDereferences;
+    }
+
+    public Test setValeurDereferences(List<ValeurDeReference> valeurDereferences) {
+        this.valeurDereferences = valeurDereferences;
         return this;
     }
 

@@ -40,7 +40,7 @@ public class TestController {
    }
    
    @RequestMapping("/tests/{id}")
-   public Test show(@PathVariable Long id){
+   public Test show(@PathVariable int id){
        
        return testRepo.findById(id).get();
    }
@@ -67,7 +67,7 @@ public class TestController {
    
 
    @RequestMapping(value="/tests/{id}", method = RequestMethod.DELETE)
-   public Test delete(@PathVariable Long id){
+   public Test delete(@PathVariable int id){
        
        return testRepo.findById(id).get()
                .setStatutVie(false);

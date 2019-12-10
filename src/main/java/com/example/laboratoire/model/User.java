@@ -6,19 +6,15 @@
 package com.example.laboratoire.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -113,7 +109,28 @@ public class User {
         this.statutVie = statutVie;
     }
 
-    
+    // This constructor is useful to me in the UserDetais class for authentication
+    public User(User user){
+        
+        this.id = user.getId();
+        this.firstName = user.getFirstName();
+         this.lastName = user.getLastName();
+        this.sigle = user.getSigle();
+        this.sex = user.getSex();
+        this.dob = user.getDob();
+        this.roles = user.getRoles();
+        this.nationality = user.getNationality();
+        this.cni = user.getCni();
+        this.photo = user.getPhoto();
+        this.address = user.getAddress();
+        this.phone = user.getPhone();
+        this.codeUtilisateur = user.getCodeUtilisateur();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.createdOn = user.getCreatedOn();
+        this.updatedOn = user.getUpdatedOn();
+        this.statutVie = user.isAlive();
+    }
 
     public int getId() {
         return id;

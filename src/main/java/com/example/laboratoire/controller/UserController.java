@@ -5,12 +5,14 @@
  */
 package com.example.laboratoire.controller;
 
+import com.example.laboratoire.model.Employee;
 import com.example.laboratoire.model.User;
 import com.example.laboratoire.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,4 +76,5 @@ public class UserController {
                .setStatutVie(false);
        
    }
+   
 }

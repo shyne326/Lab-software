@@ -52,8 +52,12 @@ public class PatientController {
                                .setUpdatedOn(new Date())
        );
        
+       Date today = new Date();
+       int y = today.getYear()-100;  System.out.println(y);
+       int m = today.getMonth()+1; System.out.println(m);
+       int d = today.getDate(); System.out.println(d);
       return  patientRepo.save(
-            (Patient)  p.setCodeUtilisateur("MJ"+ p.getId())
+            (Patient)  p.setCodeUtilisateur("MJ"+ y+m+d+ p.getId())
       );
        
    }

@@ -2,55 +2,102 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="88cfcafa-f0f7-49ea-ac84-f7ba997a2048">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="51"/>
 	<queryString>
 		<![CDATA[SELECT
-     test.`name` AS test_name,
-     test.`price` AS test_price,
-     test.`unit_of_measurement` AS test_unit_of_measurement,
-     test.`section_id` AS test_section_id,
-     user.`date_of_birth` AS user_date_of_birth,
+     user.`id` AS user_id,
+     user.`address` AS user_address,
+     user.`cni` AS user_cni,
+     user.`code_utilisateur` AS user_code_utilisateur,
+     user.`dob` AS user_dob,
      user.`first_name` AS user_first_name,
      user.`last_name` AS user_last_name,
+     user.`phone` AS user_phone,
+     user.`sex` AS user_sex,
      user.`sigle` AS user_sigle,
-     sigle.`name` AS sigle_name,
-     sexe.`name` AS sexe_name,
+
      sample.`id` AS sample_id,
      sample.`created_on` AS sample_created_on,
-     sample.`statut_vie` AS sample_statut_vie,
-     sample.`updated_on` AS sample_updated_on,
+     sample.`requester` AS sample_requester,
      sample.`lab_technician_id` AS sample_lab_technician_id,
      sample.`patient_id` AS sample_patient_id,
      sample.`sample_type_id` AS sample_sample_type_id,
-     sample.`requester` AS sample_requester,
-     sample.`requester_address` AS sample_requester_address
+
+     test.`id` AS test_id,
+     test.`created_on` AS test_created_on,
+     test.`description` AS test_description,
+     test.`name` AS test_name,
+     test.`price` AS test_price,
+     test.`statut_vie` AS test_statut_vie,
+     test.`unit_of_measurement` AS test_unit_of_measurement,
+     test.`updated_on` AS test_updated_on,
+     test.`section_id` AS test_section_id,
+
+     sample_tests.`samples_id` AS sample_tests_samples_id,
+     sample_tests.`tests_id` AS sample_tests_tests_id,
+
+     result.`id` AS result_id,
+     result.`abnormal` AS result_abnormal,
+     result.`attached_file` AS result_attached_file,
+     result.`created_on` AS result_created_on,
+     result.`inference` AS result_inference,
+     result.`rejected` AS result_rejected,
+     result.`validated` AS result_validated,
+     result.`valeur_caractere` AS result_valeur_caractere,
+     result.`valeur_numeric` AS result_valeur_numeric,
+     result.`sample_id` AS result_sample_id,
+     result.`test_id` AS result_test_id,
+     result.`validator_id` AS result_validator_id,
+     result. `device` AS result_device
 FROM
-     `sigle` sigle INNER JOIN `user` user ON sigle.`id` = user.`sigle_id`
-     INNER JOIN `sexe` sexe ON user.`sex_id` = sexe.`id`
-     INNER JOIN `sample` sample ON user.`id` = sample.`patient_id`,
-     `test` test
+     `user` user INNER JOIN `sample` sample ON user.`id` = sample.`patient_id`
+     INNER JOIN `sample_tests` sample_tests ON sample.`id` = sample_tests.`samples_id`
+     INNER JOIN `result` result ON sample.`id` = result.`sample_id`
+     INNER JOIN `test` test ON result.`test_id` = test.`id`
+     AND sample_tests.`tests_id` = test.`id`
 WHERE
-     user.`id` = 2]]>
+     patient_id = 25]]>
 	</queryString>
-	<field name="test_name" class="java.lang.String"/>
-	<field name="test_price" class="java.lang.Long"/>
-	<field name="test_unit_of_measurement" class="java.lang.String"/>
-	<field name="test_section_id" class="java.lang.Integer"/>
-	<field name="user_date_of_birth" class="java.sql.Timestamp"/>
+	<field name="user_id" class="java.lang.Integer"/>
+	<field name="user_address" class="java.lang.String"/>
+	<field name="user_cni" class="java.lang.String"/>
+	<field name="user_code_utilisateur" class="java.lang.String"/>
+	<field name="user_dob" class="java.sql.Date"/>
 	<field name="user_first_name" class="java.lang.String"/>
 	<field name="user_last_name" class="java.lang.String"/>
+	<field name="user_phone" class="java.lang.String"/>
+	<field name="user_sex" class="java.lang.String"/>
 	<field name="user_sigle" class="java.lang.String"/>
-	<field name="sigle_name" class="java.lang.String"/>
-	<field name="sexe_name" class="java.lang.String"/>
-	<field name="sample_id" class="java.lang.Long"/>
+	<field name="sample_id" class="java.lang.Integer"/>
 	<field name="sample_created_on" class="java.sql.Timestamp"/>
-	<field name="sample_statut_vie" class="java.lang.Boolean"/>
-	<field name="sample_updated_on" class="java.sql.Timestamp"/>
+	<field name="sample_requester" class="java.lang.String"/>
 	<field name="sample_lab_technician_id" class="java.lang.Integer"/>
 	<field name="sample_patient_id" class="java.lang.Integer"/>
 	<field name="sample_sample_type_id" class="java.lang.Integer"/>
-	<field name="sample_requester" class="java.lang.String"/>
-	<field name="sample_requester_address" class="java.lang.String"/>
+	<field name="test_id" class="java.lang.Integer"/>
+	<field name="test_created_on" class="java.sql.Timestamp"/>
+	<field name="test_description" class="java.lang.String"/>
+	<field name="test_name" class="java.lang.String"/>
+	<field name="test_price" class="java.lang.Long"/>
+	<field name="test_statut_vie" class="java.lang.Boolean"/>
+	<field name="test_unit_of_measurement" class="java.lang.String"/>
+	<field name="test_updated_on" class="java.sql.Timestamp"/>
+	<field name="test_section_id" class="java.lang.Integer"/>
+	<field name="sample_tests_samples_id" class="java.lang.Integer"/>
+	<field name="sample_tests_tests_id" class="java.lang.Integer"/>
+	<field name="result_id" class="java.lang.Integer"/>
+	<field name="result_abnormal" class="java.lang.Boolean"/>
+	<field name="result_attached_file" class="java.lang.String"/>
+	<field name="result_created_on" class="java.sql.Timestamp"/>
+	<field name="result_inference" class="java.lang.String"/>
+	<field name="result_rejected" class="java.lang.Boolean"/>
+	<field name="result_validated" class="java.lang.Boolean"/>
+	<field name="result_valeur_caractere" class="java.lang.String"/>
+	<field name="result_valeur_numeric" class="java.lang.Double"/>
+	<field name="result_sample_id" class="java.lang.Integer"/>
+	<field name="result_test_id" class="java.lang.Integer"/>
+	<field name="result_validator_id" class="java.lang.Integer"/>
+	<field name="result_device" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -128,7 +175,7 @@ WHERE
 										<textElement>
 											<font size="10" isBold="false"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$F{sigle_name}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$F{user_sigle}]]></textFieldExpression>
 									</textField>
 									<elementGroup>
 										<elementGroup>
@@ -178,11 +225,15 @@ WHERE
 			</staticText>
 			<textField>
 				<reportElement x="368" y="50" width="100" height="20" uuid="72ea7bc7-0ad0-4bee-bec6-ffeb928727ee"/>
-				<textFieldExpression><![CDATA[$F{sexe_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{user_sex}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="368" y="70" width="100" height="20" uuid="cdcf366d-8b8e-4398-b3eb-4f6d545c3ced"/>
-				<textFieldExpression><![CDATA[$F{user_date_of_birth}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{user_dob}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="80" y="80" width="100" height="20" uuid="1f376b75-1784-4062-9c46-e58e137ab487"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -235,47 +286,47 @@ WHERE
 					</elementGroup>
 				</elementGroup>
 			</elementGroup>
+			<textField>
+				<reportElement x="134" y="51" width="100" height="20" uuid="bd59206d-0d25-4771-a5f3-2969f907640f"/>
+				<textFieldExpression><![CDATA[$F{result_device}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="90" width="100" height="20" uuid="e6980327-171e-475b-bfc7-9234b1ce9664"/>
+				<textFieldExpression><![CDATA[$F{result_valeur_numeric}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="266" y="90" width="100" height="20" uuid="9c921d93-6571-4fd2-9b9a-2cae9fc6fb68"/>
+				<textFieldExpression><![CDATA[$F{result_valeur_caractere}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="128" width="100" height="20" uuid="dcbc4a97-7d1c-458a-a79b-8fe09cde6db4"/>
+				<textFieldExpression><![CDATA[$F{result_inference}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch">
-			<textField>
-				<reportElement x="434" y="34" width="80" height="20" uuid="e6c26dcc-85c6-4b18-a942-578a082c4efa"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="515" y="34" width="40" height="20" uuid="59376bf1-e5db-4801-a0f5-214237872ba2"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="54" splitType="Stretch"/>
 	</pageFooter>
 	<lastPageFooter>
 		<band height="50">
 			<staticText>
-				<reportElement x="220" y="27" width="100" height="20" uuid="de142785-0351-4816-80c4-26c61a32eadd"/>
-				<text><![CDATA[Last Page fooeter]]></text>
+				<reportElement x="18" y="10" width="100" height="20" uuid="de142785-0351-4816-80c4-26c61a32eadd"/>
+				<text><![CDATA[Fait à Douala         Le]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="434" y="27" width="80" height="20" uuid="5c495e26-dadc-4349-a609-7e7072221621"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="121" y="10" width="100" height="20" uuid="7c231752-c71b-4cd7-a8a9-590e9d8e3f20"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="514" y="27" width="40" height="20" uuid="f0535ad4-16e8-43d5-b814-9752b1dcaae9"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
+			<staticText>
+				<reportElement x="433" y="10" width="100" height="20" uuid="2e6215f6-71df-4d07-9081-7a6c02be30ea"/>
+				<text><![CDATA[Fait à Douala         Le]]></text>
+			</staticText>
 		</band>
 	</lastPageFooter>
 	<summary>
-		<band height="42" splitType="Stretch">
-			<staticText>
-				<reportElement x="455" y="22" width="100" height="20" uuid="07bf99ab-f21d-4f89-b534-a03508e04842"/>
-				<text><![CDATA[Static text]]></text>
-			</staticText>
-		</band>
+		<band height="42" splitType="Stretch"/>
 	</summary>
 </jasperReport>

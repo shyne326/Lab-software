@@ -5,11 +5,10 @@
  */
 package com.example.laboratoire.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,29 +34,18 @@ import javax.validation.constraints.NotNull;
 @Table(name="sample")
 public class Sample {
     
-   // Employee holder id for creating a patient during Sample posting
-    @javax.persistence.Transient
-   private int employeeId;
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-    
     
     //////////////////////////////////////////////////
     @javax.persistence.Transient
-    private List<Long> testIds;
+    private int[] testIds;
 
-    public List<Long> getTestIds() {
+    public int[] getTestIds() {
         return testIds;
     }
 
-    public void setTestIds(List<Long> testIds) {
+    public Sample setTestIds(int[] testIds) {
         this.testIds = testIds;
+        return this;
     }
     
     ////////////////////////////////////////
@@ -112,10 +100,12 @@ public class Sample {
     private Patient patient;
     
     @ManyToOne
+    @JsonIgnoreProperties({"cni","photo","address","createdOn","updatedOn","password", "email","alive"})
     private Employee labTechnician;
     
     @ManyToOne
     @NotNull
+    @JsonIgnoreProperties({"testsThatCanBeConducted", "createdOn", "updatedOn"})
     private SampleType sampleType;
     
     private String requester;
@@ -123,18 +113,25 @@ public class Sample {
     private String note;
     
     @OneToMany(mappedBy = "sample", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"sample", "createdOn", "updatedOn"})
     private List<Result> results;
     
     @ManyToMany
+    @JsonIgnoreProperties({"samples","sectionId","description","price","createdOn","updatedOn","alive","sampleTypes"})
     private List<Test> tests = new ArrayList();
     
     @Column(name="created_on")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private java.util.Date createdOn;
+    
     @Column(name="updated_on")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private java.util.Date updatedOn;
+    
     @Column(name="statut_vie")
+    @JsonIgnore
     private boolean statutVie;
 
     public Sample() {
@@ -232,24 +229,27 @@ public class Sample {
         return note;
     }
 
-    public void setNote(String note) {
+    public Sample setNote(String note) {
         this.note = note;
+        return this;
     }
 
     public List<Result> getResults() {
         return results;
     }
 
-    public void setResults(List<Result> results) {
+    public Sample setResults(List<Result> results) {
         this.results = results;
+        return this;
     }
 
     public List<Test> getTests() {
         return tests;
     }
 
-    public void setTests(List<Test> tests) {
+    public Sample setTests(List<Test> tests) {
         this.tests = tests;
+        return this;
     }
 
        

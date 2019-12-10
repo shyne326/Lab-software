@@ -6,6 +6,7 @@
 package com.example.laboratoire.repository;
 
 import com.example.laboratoire.model.User;
+import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -15,4 +16,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserRepository extends CrudRepository<User, Integer>{
     
     public Iterable<User> findByStatutVie(boolean statutVie);
+
+    public Optional<User> findByFirstName(String firstName);
 }

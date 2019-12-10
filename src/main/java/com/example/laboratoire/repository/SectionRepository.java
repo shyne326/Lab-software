@@ -15,4 +15,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface SectionRepository extends CrudRepository<Section, Integer>{
     
     public Iterable<Section> findByStatutVie(boolean statutVie);
+
+    public java.util.Optional<Section> findByName(String name);
 }

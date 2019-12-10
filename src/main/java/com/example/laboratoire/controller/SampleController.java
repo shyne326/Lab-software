@@ -45,7 +45,7 @@ public class SampleController {
    }
    
    @RequestMapping("/samples/{id}")
-   public Sample show(@PathVariable Long id){
+   public Sample show(@PathVariable int id){
        
        return sampleRepo.findById(id).get();
    }
@@ -58,12 +58,17 @@ public class SampleController {
         
         
         // This block of code here below will be handled with care
+        List<Test> tests = new ArrayList();
+        for(int i: sample.getTestIds()){
+            tests.add(new Test(i));
+        }
        
        return sampleRepo.save(
                sample.setStatutVie(true)
                        .setSampleType(new SampleType(sample.getSampleTypeId()))
                        .setPatient(new Patient(sample.getPatientId()))
-                       .setLabTechnician(new Employee(sample.getEmployeeId()))
+                       .setLabTechnician(new Employee(sample.getLabTechnicianId()))
+                       .setTests(tests)
                   .setCreatedOn(new Date())
                   .setUpdatedOn(new Date())
        );
@@ -79,7 +84,7 @@ public class SampleController {
    
 
    @RequestMapping(value="/samples/{id}", method = RequestMethod.DELETE)
-   public Sample delete(@PathVariable Long id){
+   public Sample delete(@PathVariable int id){
        
        return sampleRepo.findById(id).get()
                .setStatutVie(false);

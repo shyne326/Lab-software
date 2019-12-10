@@ -1,0 +1,114 @@
+
+<div class="navbar navbar-default">
+        <div class="container-fluid">
+            <!--  Brand and toggle get grouped for better mobile display -->
+           <div class="navbar-heade">
+              
+           
+            <div class="nav navbar-na">
+    
+                <div class="col-md-2 col-md-offset-1 text-muted">Code du patient </div>
+                <div class="col-md-2 text-muted">Nom du patient </div>
+                <div class="col-md-2 text-muted">Prenom du patient </div>
+                <div class="col-md-2 text-muted">Sexe du patient </div>
+                <div class="col-md-2 text-muted">Date de naissance </div>
+                
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-bottom: 70px;">
+        <div class="col-md-2 col-md-offset-1">{{ sample.patient.codeUtilisateur}}</div>
+        <div class="col-md-2">{{ sample.patient.firstName }}</div>
+        <div class="col-md-2">{{ sample.patient.lastName }}</div>
+        <div class="col-md-2">{{ sample.patient.sex }}</div>
+        <div class="col-md-2">{{ sample.patient.dob }}</div>
+
+    </div>
+
+
+<div class="container">
+
+        <div class="navbar navbar-default" style="background-color: #337ab7;color: #fff; font-weight: 600;">
+                <div class="container-fluid">
+                    <!--  Brand and toggle get grouped for better mobile display -->
+                   <div class="navbar-heade">
+                      
+                   
+                    <div class="nav navbar-na"style="padding-top: 10px;">
+            
+                        <div class="col-md-2">Examens </div>
+                        <div class="col-md-2 ">Resultat numérique </div>
+                        <div class="col-md-2">Resultat caractère </div>
+                        <div class="col-md-1">Abnormal </div>
+                        <div class="col-md-2">Notes </div>
+                        <div class="col-md-1">Pièce jointe</div>
+                        <div class="col-md-2">Appareil/Réactif utilisé</div>
+
+                        
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+               <strong> Date:</strong> {{today}}
+            </div>
+           <hr>
+<form [formGroup]="form" class="form-horizontal" (ngSubmit)="onSubmit()">
+
+    <div formArrayName="testsArray" *ngFor="let test of sample.tests; let i=index" >
+        <div [formGroupName]="i">
+
+            <div class="form-group row">
+                   <div class="col-md-2">
+                       <div class="row">
+                           <span class="col-sm-12">{{ test.name }}</span>
+                           <span class="col-sm-12"><!--{{ test.references.normal_low}}-{{  test.references.normal_high}}--></span>
+                       </div>
+                   </div>
+
+                   <div class="col-md-2" style="margin-right: 5px;">
+                       <div class="row">
+                            <input type="number" formControlName="valeurNumerique" class="col-sm-6 form-control"/> <!--- Will work on disabling later-->
+                            <span class="col-sm-6 text-muted">g/mol{{  test.unitOfMeasurement}}</span>
+                       </div>      
+                   </div>
+                   <div class="col-md-2" >
+                        <div class="row">
+                             <textarea rows="1" cols="2" formControlName="valeurCaractere" class="col-sm-6 form-control"></textarea>
+                        </div>      
+                    </div>
+                    
+                   <div class="form-group col-sm-1">
+                     <input type="checkbox" formControlName="abnormal" class="form-control">
+                   </div>
+                   <div class="form-group col-sm-2" style="margin-right: 5px;">
+                        <textarea class="form-control" formControlName="notes"></textarea>
+                    </div>
+                    <div class="form-group col-sm-1" style="margin-right: 5px;">
+                            <input type="file" class="form-control" formControlName="attachedFile"/>
+                        </div>
+                    <div class="form-group col-md-2">
+                        <select class="form-control" formControlName="device" >
+                            <option value="" disabled></option>
+                            <option *ngFor="let device of devices" value="{{device.name}}">{{ device.name }}</option>
+                        </select>
+                    </div>
+
+            </div>
+           
+        </div>
+    </div>
+    <br><hr>
+    <div class="row" >
+
+            <div class="form-group col-md-4 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary btn-block form-control">Enregistrer&nbsp;<span class="glyphicon glyphicon-send"></span></button>
+                </div>
+    </div>
+    
+</form>
+
+</div>

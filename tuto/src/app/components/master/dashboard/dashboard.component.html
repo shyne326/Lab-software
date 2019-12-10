@@ -1,0 +1,114 @@
+
+  
+  <!-- Page Content -->
+
+
+  <div class="container">
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!--  Brand and toggle get grouped for better mobile display -->
+           <div class="navbar-header">
+              <p class="navbar-brand" href="#">Statistiques du jour: </p>
+           </div>
+        <!--  Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right" id="myNavbar">
+            <ul class="nav navbar-nav">
+    
+                <li><a>Echantillons prelevé: </a> </li>
+                <li><a>En attente d'examens:</a></li>
+                <li><a>En attente de validation: </a></li>
+                <li><a>Total: </a></li>
+                <li><a>Completés: </a></li>
+                <li><a>Patients total journée: </a></li>
+                
+            </ul>
+        </div>
+        </div>
+    </nav>
+
+
+    <div class="row" *ngIf="successMessage.length > 0">
+        <div class="col-xs-12 alert alert-success alert-dismissible">
+           <button type="button" class="close" data-dismiss="alert">&times;</button>
+           {{successMessage}}
+        </div>
+    </div>
+
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-lg-12">
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item active">
+              <a class="nav-link">Aujourd'hui</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Antérieure</a>
+            </li>
+          </ul> 
+         <br><br/>
+         <!-- Dashboard/samples table -->
+         
+             <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped table-bordered" >
+
+              <thead>
+                <tr>
+                  <th>code Utilisateur</th>
+                  <th>Nom du patient</th>
+                  <th>Type d'échantillon</th>
+                  <th>Tests en attente</th>
+                  <th>En attente de validation</th>
+                  <th>Total</th>
+                  <th>notes</th>
+                  <th>Terminé?</th>
+                  <th>Action</th>
+
+                 </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let sample of samples">
+                    <td>{{ sample.patient.codeUtilisateur }}</td>
+                    <td>{{ sample.patient.firstName }} &nbsp; {{ sample.patient.lastName}}</td>
+                    <td>{{ sample.sampleType.name}}</td>
+                    <td>{{ computeTestsEnAttentes(sample) }}</td>
+                    <td>{{ computeEnAttenteDeValidation(sample) }}</td>
+                    <td>{{ computeTotal(sample) }}</td>
+                    <td>{{ sample.notes }}</td>
+                    <td> {{completed(sample)}}</td>
+                    <td class="row">
+                      
+                      <!-- <a routerLink="/results/create/sample/{{sample.id}}" *ngIf="sample.tests.length" class="btn btn-sm btn-default" style="margin-bottom: 5px;">Ajouter resultat</a><br> -->
+                      <a routerLink="/result-intermediate/sample/{{sample.id}}" *ngIf="sample.tests.length" class="btn btn-sm btn-default" style="margin-bottom: 5px;">Ajouter resultat</a><br>
+                      <a routerLink="/results/validate/sample/{{sample.id}}" class="btn btn-sm btn-info" style="margin-bottom: 5px;" *ngIf="hasAuthority() && sample.results.length>0">Valider Resultat</a><br>
+                      <a href="http://127.0.0.1:8080/reports/{{sample.patient.id}}" class="btn btn-sm btn-primary" *ngIf="sample.results.length>0">Imprimer resultat&nbsp;<span class="glyphicon glyphicon-print"></span></a>
+                  </td> <!---- Computed in the ts component using dateOfBirth property-->
+                  </tr> 
+
+                </tbody>
+
+                <tfoot>
+                  <tr>
+                    <th>code Utilisateur</th>
+                    <th>Nom du patient</th>
+                    <th>Type d'échantillon</th>
+                    <th>Tests en attente</th>
+                    <th>En attente de validation</th>
+                    <th>Total</th>
+                    <th>notes</th>
+                    <th>Terminé ?</th>
+                    <th>Action</th>
+  
+                   </tr>
+                </tfoot>
+              
+          </table>
+      </div>
+      <!-- /.col-lg-12 -->
+
+    </div>
+    <!-- /.row -->
+
+  </div>

@@ -73,4 +73,13 @@ public class EmployeeController {
                .setStatutVie(false);
        
    }
+   
+      //@GetMapping(produces = "application/json")
+	@RequestMapping({ "validate-user/{username}" })
+	public Employee validateLogin(@PathVariable String username) {
+            
+            return employeeRepo.findByFirstName(username).get();
+         //  return "Logged in successfully";
+            
+	}
 }
