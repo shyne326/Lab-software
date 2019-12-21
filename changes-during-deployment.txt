@@ -1,0 +1,3 @@
+- The link for download on "Imprimer Resultat"
+- The link to the backend server on all the services
+- The path directory for saving produced reports (Maybe it could be stored in classpath, and so will be easier then)

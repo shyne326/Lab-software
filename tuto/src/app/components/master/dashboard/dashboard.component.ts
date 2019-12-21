@@ -54,9 +54,11 @@ export class DashboardComponent implements OnInit {
     )
   }
 
+  /*
   public computeTestsEnAttentes(sample:any) {
     
-      let count = 0;
+
+     let count = 0;
                         if((count =sample.tests.length - sample.results.length) > 0){
                             return count;
                         }
@@ -81,24 +83,37 @@ export class DashboardComponent implements OnInit {
         }
       } 
       return count;
+      
  
     }
 
   }
-
+*/
   public computeTotal(sample: any){
 
-    return sample.tests.length;
+    return (sample.tests.length)? sample.tests.length :0;
   }
 
+  
+
   public completed(sample){
-     
+   
+    /*
+   
     let total = this.computeTotal(sample);
     if( total-(this.computeTestsEnAttentes(sample) + this.computeEnAttenteDeValidation(sample)) == total){
        return 'Oui';
     }
     return 'Non';
+
+    */
+
+    if(sample.result != null && sample.results.validated){
+       return 'Oui';
+    }
+    return 'Non'
   }
+  
 
   public hasAuthority(): boolean{
 

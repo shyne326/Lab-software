@@ -55,13 +55,18 @@
              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped table-bordered" >
 
               <thead>
+
+                <!--  These modifications are done since for the moment we attach the results and so the commented columns will make
+                       little sense at its present state
+                 -->
                 <tr>
                   <th>code Utilisateur</th>
                   <th>Nom du patient</th>
                   <th>Type d'échantillon</th>
-                  <th>Tests en attente</th>
-                  <th>En attente de validation</th>
-                  <th>Total</th>
+                <!--  <th>Tests en attente</th>  -->
+                  <th>Nombre d'examens à faire</th>
+                <!--   <th>En attente de validation</th>  -->
+                <!--  <th>Total</th>  -->
                   <th>notes</th>
                   <th>Terminé?</th>
                   <th>Action</th>
@@ -73,18 +78,25 @@
                     <td>{{ sample.patient.codeUtilisateur }}</td>
                     <td>{{ sample.patient.firstName }} &nbsp; {{ sample.patient.lastName}}</td>
                     <td>{{ sample.sampleType.name}}</td>
-                    <td>{{ computeTestsEnAttentes(sample) }}</td>
-                    <td>{{ computeEnAttenteDeValidation(sample) }}</td>
+                  <!--  <td>{{ computeTestsEnAttentes(sample) }}</td> -->
+                  <!--  <td>{{ computeEnAttenteDeValidation(sample) }}</td> -->
                     <td>{{ computeTotal(sample) }}</td>
                     <td>{{ sample.notes }}</td>
                     <td> {{completed(sample)}}</td>
                     <td class="row">
                       
                       <!-- <a routerLink="/results/create/sample/{{sample.id}}" *ngIf="sample.tests.length" class="btn btn-sm btn-default" style="margin-bottom: 5px;">Ajouter resultat</a><br> -->
-                      <a routerLink="/result-intermediate/sample/{{sample.id}}" *ngIf="sample.tests.length" class="btn btn-sm btn-default" style="margin-bottom: 5px;">Ajouter resultat</a><br>
-                      <a routerLink="/results/validate/sample/{{sample.id}}" class="btn btn-sm btn-info" style="margin-bottom: 5px;" *ngIf="hasAuthority() && sample.results.length>0">Valider Resultat</a><br>
-                      <a href="http://127.0.0.1:8080/reports/{{sample.patient.id}}" class="btn btn-sm btn-primary" *ngIf="sample.results.length>0">Imprimer resultat&nbsp;<span class="glyphicon glyphicon-print"></span></a>
-                  </td> <!---- Computed in the ts component using dateOfBirth property-->
+                      <a routerLink="/result-intermediate/sample/{{sample.id}}" *ngIf="sample.tests.length && !sample.results" class="btn btn-sm btn-default" style="margin-bottom: 5px;">Ajouter resultat</a><br>
+                      <a routerLink="/result-intermediate/sample/{{sample.id}}" *ngIf="sample.tests.length && sample.results" class="btn btn-sm btn-default" style="margin-bottom: 5px;">Modifier resultat</a><br>
+                  <!--    
+                        The two lines here were used when the relation between sample and results was one to many.
+
+                           <a routerLink="/results/validate/sample/{{sample.id}}" class="btn btn-sm btn-info" style="margin-bottom: 5px;" *ngIf="hasAuthority() && sample.results.length>0">Valider Resultat</a><br>
+                           <a href="http://127.0.0.1:8080/reports/{{sample.patient.codeUtilisateur}}" class="btn btn-sm btn-primary" *ngIf="sample.results.length>0">Imprimer resultat&nbsp;<span class="glyphicon glyphicon-print"></span></a>
+                  -->
+                      <a routerLink="/results/validate/sample/{{sample.id}}" class="btn btn-sm btn-info" style="margin-bottom: 5px;" *ngIf="hasAuthority() && sample.results">Valider Resultat</a><br>
+                      <a href="http://127.0.0.1:8080/reports/{{sample.patient.codeUtilisateur}}" class="btn btn-sm btn-primary" *ngIf="sample.results">Imprimer resultat&nbsp;<span class="glyphicon glyphicon-print"></span></a>
+                  </td> <!-- Computed in the ts component using dateOfBirth property -->
                   </tr> 
 
                 </tbody>

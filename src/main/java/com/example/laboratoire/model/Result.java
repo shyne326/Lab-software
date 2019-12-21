@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,6 +37,18 @@ public int getValidatorId(){
 }
 public Result setValidatorId(int val){
     this.validatorId = val;
+    return this;
+}
+
+
+@Transient
+private int labTechnicianId;
+
+public int getLabTechnicianId(){
+    return labTechnicianId;
+}
+public Result setLabTechnicianId(int val){
+    this.labTechnicianId = val;
     return this;
 }
     
@@ -65,8 +78,7 @@ public Result setValidatorId(int val){
     
     
     
-    
-    
+  
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,10 +96,15 @@ public Result setValidatorId(int val){
     @ManyToOne
     private Employee validator;
     
-    
     @ManyToOne
+    private Employee labTechnician;
+    
+    
+    //@ManyToOne  // Has been changed cuz we are now attaching results, will be adjusted later
+    @OneToOne
     @JsonIgnoreProperties({"results","createdOn","updatedOn"})
     private Sample sample;
+    
     @ManyToOne
     @JsonIgnoreProperties({"validatorId","sampleId","testId","description","price","sampleTypes","samples","section","createdOn","updatedOn","active"})
     private Test test;
@@ -113,12 +130,15 @@ public Result setValidatorId(int val){
         
     }
 
-    public Result(int id, String inference, boolean validated, String attachedFile, Employee validatedBy, Sample sample) {
+    public Result(int id, String resultat, String inference, boolean validated, String attachedFile, Employee validatedBy, String device, String reactif, Sample sample) {
         this.id = id;
+        this.resultat = resultat;
         this.inference = inference;
         this.attachedFile = attachedFile;
         this.validated = validated;
         this.validator = validatedBy;
+        this.reactif = reactif;
+        this.device = device;
         this.sample = sample;
     }
 
@@ -202,6 +222,15 @@ public Result setValidatorId(int val){
 
     public Result setValidator(Employee validator) {
         this.validator = validator;
+        return this;
+    }
+    
+    public Employee getLabTechnician() {
+        return labTechnician;
+    }
+
+    public Result setLabTechnician(Employee labTechnician) {
+        this.labTechnician = labTechnician;
         return this;
     }
 

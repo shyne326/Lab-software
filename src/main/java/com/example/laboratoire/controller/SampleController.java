@@ -7,12 +7,14 @@ package com.example.laboratoire.controller;
 
 import com.example.laboratoire.model.Employee;
 import com.example.laboratoire.model.Patient;
+import com.example.laboratoire.model.Result;
 import com.example.laboratoire.model.Sample;
 import com.example.laboratoire.model.SampleType;
 import com.example.laboratoire.model.Test;
 import com.example.laboratoire.repository.SampleRepository;
 import com.example.laboratoire.repository.TestRepository;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +58,6 @@ public class SampleController {
 
         
         
-        
         // This block of code here below will be handled with care
         List<Test> tests = new ArrayList();
         for(int i: sample.getTestIds()){
@@ -76,7 +77,7 @@ public class SampleController {
        /*********************/
    }
    
-   @RequestMapping(value="/samples/{id}", method = RequestMethod.PATCH)
+   @RequestMapping(value="/samples/{id}", method = RequestMethod.PUT)
    public Sample update(@RequestBody Sample sample){
        
        return sampleRepo.save(sample.setUpdatedOn(new Date()));
@@ -90,4 +91,37 @@ public class SampleController {
                .setStatutVie(false);
        
    }
+   
+   
+   
+   @RequestMapping(value="/samples/{id}/results", method = RequestMethod.PUT)
+   public Sample updateResults(@RequestBody Result[] results, @PathVariable int id){
+       
+       Sample s = sampleRepo.findById(id).get();
+       
+       s.setResults(Arrays.asList(results));
+       
+       return sampleRepo.save(s);
+   }
+
+
+
+   
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

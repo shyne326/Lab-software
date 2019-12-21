@@ -22,6 +22,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { LogoutComponent } from './logout/logout.component';
 import { UniteComponent } from './components/master/unite/unite.component';
 import { ResultIntermediateComponent } from './components/master/result-intermediate/result-intermediate.component';
+import { ValidateResultsComponent } from './components/master/validate-results/validate-results.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ResultIntermediateComponent } from './components/master/result-intermed
     LogoutComponent,
     UniteComponent,
     ResultIntermediateComponent,
+    ValidateResultsComponent,
   ],
   imports: [
     BrowserModule,

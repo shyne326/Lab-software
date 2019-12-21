@@ -25,7 +25,10 @@ public WebMvcConfigurer corsConfigurer() {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
           
-            registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+           // registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+            registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("HEAD", "GET", "POST", "PUT", "PATCH", "OPTIONS", "DELETE");
         //    registry.addMapping("/users").allowedOrigins("http://localhost:4200");
         }
 };

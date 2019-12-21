@@ -25,6 +25,8 @@ public class Employee extends User{
     // Might be modified later by creating a role entity
     private String roles;
     
+    @OneToMany(mappedBy = "labTechnician")
+    private List<Result> results;
     
     @OneToMany(mappedBy = "labTechnician")
     @JsonIgnore
@@ -108,6 +110,15 @@ public class Employee extends User{
 
     public Employee setConductedSamples(List<Sample> conductedSamples) {
         this.conductedSamples = conductedSamples;
+        return this;
+    }
+
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public Employee setResults(List<Result> results) {
+        this.results = results;
         return this;
     }
      

@@ -12,7 +12,7 @@ export interface Test{
     unitOfMeasurement: string;
     price: number;
     prixSt: number;
-    valeurDereference?: ValeurDeReference;
+    valeurDereferences?: ValeurDeReference[];
     sampleTypes?: SampleType[];
     section: Section;
     samples?: Sample[];

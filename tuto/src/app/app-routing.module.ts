@@ -13,6 +13,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { ValidationGuardService } from './services/validation-guard.service';
 import { UniteComponent } from './components/master/unite/unite.component';
 import { ResultIntermediateComponent } from './components/master/result-intermediate/result-intermediate.component';
+import { ValidateResultsComponent } from './components/master/validate-results/validate-results.component';
 
 
 
@@ -33,7 +34,7 @@ const routes: Routes = [
        },
        {path: 'result-intermediate/sample/:sampleId', component:ResultIntermediateComponent},
        {path: 'results/create/sample/:sampleId', component: CreateResultComponent},
-       {path: 'results/validate/sample/:sampleId', component: CreateResultComponent, canActivate:[ValidationGuardService]},
+       {path: 'results/validate/sample/:sampleId', component: ValidateResultsComponent, canActivate:[ValidationGuardService]},
        {path: 'samples/create/patient/:patientId', component: CreateSampleComponent },  // 'id' represents the patient's since a sample must be attached to a patient
        {path: 'patients', component: ListPatientsComponent},
        {path: 'patients/create', component: CreatePatientComponent },

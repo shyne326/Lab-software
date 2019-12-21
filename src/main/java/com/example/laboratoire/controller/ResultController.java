@@ -76,6 +76,23 @@ public class ResultController {
        return resultRepo.save(result.setUpdatedOn(new Date()));
    }
    
+   @RequestMapping(value="/results", method = RequestMethod.PUT)
+   public void updateResults(@RequestBody Result[] results){
+       
+       for(Result result: results){
+           
+           resultRepo.save(
+               result
+                  .setSample(new Sample(result.getSampleId()))
+                  .setTest(new Test(result.getTestId()))
+                  .setValidator(new Employee(result.getValidatorId()))
+                       
+                  .setUpdatedOn(new Date())
+            );
+           
+        }
+   }
+   
 
    @RequestMapping(value="/results/{id}", method = RequestMethod.DELETE)
    public Result delete(@PathVariable int id){
@@ -84,4 +101,6 @@ public class ResultController {
                .setStatutVie(false);
        
    }
+   
+   
 }

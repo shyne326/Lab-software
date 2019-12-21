@@ -18,7 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -112,12 +112,12 @@ public class Sample {
   //  private String requesterAddress; // Or Institution
     private String note;
     
-    @OneToMany(mappedBy = "sample", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "sample", cascade = CascadeType.ALL)  // Changed from @OneToMany to many because 
     @JsonIgnoreProperties({"sample", "createdOn", "updatedOn"})
-    private List<Result> results;
+    private Result results;
     
     @ManyToMany
-    @JsonIgnoreProperties({"samples","sectionId","description","price","createdOn","updatedOn","alive","sampleTypes"})
+    @JsonIgnoreProperties({"samples","sectionId","description","price","createdOn","updatedOn","alive","sampleTypes", "prixSt"})
     private List<Test> tests = new ArrayList();
     
     @Column(name="created_on")
@@ -234,12 +234,12 @@ public class Sample {
         return this;
     }
 
-    public List<Result> getResults() {
+    public Result getResults() {
         return results;
     }
 
-    public Sample setResults(List<Result> results) {
-        this.results = results;
+    public Sample setResults(Result result) {
+        this.results = result;
         return this;
     }
 

@@ -1,1 +1,26 @@
-<p>result-intermediate works!</p>
+
+<div class="container">
+
+   <!-- <div *ngFor="let section of sections"><a (click)="listTests(section)"> {{ section.name }} </a></div> -->
+
+
+<div class="row">
+
+<div class="col-md-4">
+
+    <h3>Attacher le resultat du patient</h3>
+
+   <form enctype="multipart/form-data" (ngSubmit)="uploadFileToActivity()">
+    <div class="form-group">
+        <label for="avatar" class="col-md-4"></label>
+        <input type="file" name="avatar" class="form-control" id="avatar" (change)="handleFileInput($event.target.files)"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>  
+   </form>
+
+   <p style="color: teal;">{{ successMessage }}</p>
+  </div>
+
+</div>
+
+</div>
