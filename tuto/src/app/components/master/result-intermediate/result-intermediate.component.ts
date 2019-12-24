@@ -67,7 +67,7 @@ export class ResultIntermediateComponent implements OnInit {
     for(const t of this.sample.tests){
 
       //this.sections.push(t.section);
-      if(!this.map.has(t.section.name)){
+      if( !this.map.has(t.section.name) ){
         this.map.set(t.section.name, t.section);
         this.sections.push(t.section);
       }

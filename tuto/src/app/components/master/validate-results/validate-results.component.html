@@ -1,1 +1,63 @@
-<p>validate-results works!</p>
+
+<div class="container">
+     
+     
+     <div class="row">
+     
+            <div class="col-md-6 col-md-offset-3">
+                 <h3>Téléchargez le resultat pour le vérifier et inserez vos observations </h3>
+                 <br>
+                <a href="http://localhost:8080/reports/{{sample.patient.codeUtilisateur}}"><button class="btn btn-info" (click)="downloade()">Téléchargez resultat</button></a>
+                <br><br><br><br><br>
+        
+
+            
+                <div class="row" *ngIf="downloaded">
+                    <div class="col-xs-12 alert alert-success alert-dismissible">
+                       <button type="button" class="close" data-dismiss="alert">&times;</button>
+                       Si vous approuvé du resultat que vous venez de télécharger, inserez vos observations et rattachez le au patient.
+                       Sinon, faites le savoir à votre personel pour qu'ils reprennent les examens nécéssaires
+                    </div>
+                </div>
+            
+
+                <div class="row">
+
+                        <div class="">
+                        
+                            <h3>Attacher le resultat, du patient avec vos observations inserées.</h3>
+                        
+                           <form enctype="multipart/form-data" (ngSubmit)="uploadFileToActivity()">
+                            <div class="form-group">
+                                <label for="avatar" class="col-md-4"></label>
+                                <input type="file" name="avatar" class="form-control" id="avatar" (change)="handleFileInput($event.target.files)"/>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-primary">Enregistrer</button>  
+                           </form>
+                        
+                           <p style="color: teal;">{{ successMessage }}</p>
+                          </div>
+                        
+                    </div>
+                        
+
+                <p style="margin-top: 40px;">
+                    Une fois que vous avez attaché le resultat au patient, cliquer sur le bouton <strong>"VALIDER"</strong> ci dessous pour valider et 
+                    permettre à votre personnel d'imprimer ce resultat. 
+                </p>
+                <br><br>
+                <p>
+                    Valider le resultat pour permettre à votre personel de l'imprimer
+                </p>
+                <button class="btn btn-block btn-warning" (click)="validate()">VALIDER &nbsp;<span class="glyphicon glyphicon-thumbs-up"></span></button>
+                <br><br><br>
+                <p>
+                    {{ successMessage }}
+                </p>
+           </div>
+     
+     </div>
+
+ </div>
+     
+     

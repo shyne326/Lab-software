@@ -59,7 +59,7 @@ export class CreateResultComponent implements OnInit {
         );
   
       });
-      */
+      
 
     this.reactifService.getReactifs().subscribe(
       (response: Reactif[]) => { this.reactifs = response; console.log(response) },
@@ -74,8 +74,9 @@ export class CreateResultComponent implements OnInit {
     this.addTestInputs();
   }
 
-
-  public addTestInputs() {
+// The methods below will be temporarily unavailable since they won't be used
+ /* 
+ public addTestInputs() {
     if (this.sample.results.length <= 0) {
       console.log("This is in the addTests method called from ngDoCheck " + this.sample);
       // (<FormArray>this.form.get('testsArray')).clear();
@@ -100,7 +101,7 @@ export class CreateResultComponent implements OnInit {
       /*  this.form.patchValue({
 
           resultat : this.sample.results[0].test. //this.sample.  //??? // Don't know yet what to do
-        });    */
+        });    
     }
 
   }
@@ -187,4 +188,6 @@ export class CreateResultComponent implements OnInit {
     console.log(this.form.value.testsArray);
   }
 
+  */
+ }
 }

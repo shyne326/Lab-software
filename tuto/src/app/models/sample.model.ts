@@ -11,7 +11,8 @@ export interface Sample{
     labTechnician?: Employee;
     sampleType?: SampleType;
     tests?: Test[];
-    results?: Result[];
+   // results?: Result[];
+      results?: Result
     requester?: string;
     note: string;
   //  requesterAddress: string;

@@ -5,6 +5,7 @@
  */
 package com.example.laboratoire.controller;
 
+import com.example.laboratoire.model.Employee;
 import com.example.laboratoire.model.Result;
 import com.example.laboratoire.model.Sample;
 import com.example.laboratoire.repository.ResultRepository;
@@ -151,7 +152,9 @@ public class ReportController  {
             resultRepo.save(
                             newResult.setAttachedFile(fileBasePath + "\\" + codeUtilisateurPatient + extension)
                                      .setSample(new Sample(sampleId))
+                                     .setLabTechnician(new Employee(labTechnicianId))
                                      .setValidated(false)
+                                     .setStatutVie(true)
                                      .setCreatedOn(new Date())
                                      .setUpdatedOn(new Date())
             );

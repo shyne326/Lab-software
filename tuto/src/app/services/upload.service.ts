@@ -35,5 +35,6 @@ export class UploadService {
     formData.append('labTechnicianId', laborantinId)
     
     return this.http.post<boolean>(this.baseUrl + 'upload', formData, httpOptions)
-}
+ }
+ 
 }

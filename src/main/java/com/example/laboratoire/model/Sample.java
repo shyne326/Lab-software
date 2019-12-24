@@ -100,7 +100,7 @@ public class Sample {
     private Patient patient;
     
     @ManyToOne
-    @JsonIgnoreProperties({"cni","photo","address","createdOn","updatedOn","password", "email","alive"})
+    @JsonIgnoreProperties({"cni","photo","address","createdOn","updatedOn","password", "email","alive", "samples", "results"})
     private Employee labTechnician;
     
     @ManyToOne
@@ -112,8 +112,8 @@ public class Sample {
   //  private String requesterAddress; // Or Institution
     private String note;
     
-    @OneToOne(mappedBy = "sample", cascade = CascadeType.ALL)  // Changed from @OneToMany to many because 
-    @JsonIgnoreProperties({"sample", "createdOn", "updatedOn"})
+    @OneToOne(mappedBy = "sample")  // Changed from @OneToMany to many because 
+    @JsonIgnoreProperties({"sample", "createdOn", "updatedOn", "labTechnician"})
     private Result results;
     
     @ManyToMany

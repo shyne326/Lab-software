@@ -26,6 +26,7 @@ public class Employee extends User{
     private String roles;
     
     @OneToMany(mappedBy = "labTechnician")
+    @JsonIgnoreProperties({"labTechnician"})
     private List<Result> results;
     
     @OneToMany(mappedBy = "labTechnician")

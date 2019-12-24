@@ -94,15 +94,17 @@ public Result setLabTechnicianId(int val){
     private String reactif;
     
     @ManyToOne
+    @JsonIgnoreProperties({"results", "sex", "dob"})
     private Employee validator;
     
     @ManyToOne
+    @JsonIgnoreProperties({"results", "sex", "dob"})
     private Employee labTechnician;
     
     
     //@ManyToOne  // Has been changed cuz we are now attaching results, will be adjusted later
     @OneToOne
-    @JsonIgnoreProperties({"results","createdOn","updatedOn"})
+    @JsonIgnoreProperties({"createdOn","updatedOn", "results"})
     private Sample sample;
     
     @ManyToOne

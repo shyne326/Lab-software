@@ -13,6 +13,7 @@ export interface Result
     attachedFile?: string;
     validated?: boolean;
     validator?: Employee;
+    labTechnician?: Employee;
     createdOn?: Date;
     updatedOn?: Date;
     sample: Sample;
@@ -25,6 +26,7 @@ export interface Result
     testId?: number;
     sampleId?: number;
     validatorId?: number;
+    labTechnicianId?: number;
 
    
    /* deserialize(input: any){

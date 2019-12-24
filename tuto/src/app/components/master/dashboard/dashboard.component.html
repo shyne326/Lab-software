@@ -95,8 +95,9 @@
                            <a href="http://127.0.0.1:8080/reports/{{sample.patient.codeUtilisateur}}" class="btn btn-sm btn-primary" *ngIf="sample.results.length>0">Imprimer resultat&nbsp;<span class="glyphicon glyphicon-print"></span></a>
                   -->
                       <a routerLink="/results/validate/sample/{{sample.id}}" class="btn btn-sm btn-info" style="margin-bottom: 5px;" *ngIf="hasAuthority() && sample.results">Valider Resultat</a><br>
-                      <a href="http://127.0.0.1:8080/reports/{{sample.patient.codeUtilisateur}}" class="btn btn-sm btn-primary" *ngIf="sample.results">Imprimer resultat&nbsp;<span class="glyphicon glyphicon-print"></span></a>
-                  </td> <!-- Computed in the ts component using dateOfBirth property -->
+                      <a href="http://127.0.0.1:8080/reports/{{sample.patient.codeUtilisateur}}" class="btn btn-sm btn-primary" *ngIf="sample.results"> Imprimer resultat&nbsp;<span class="glyphicon glyphicon-print"></span></a>
+
+                    </td> <!-- Computed in the ts component using dateOfBirth property -->
                   </tr> 
 
                 </tbody>
@@ -106,11 +107,12 @@
                     <th>code Utilisateur</th>
                     <th>Nom du patient</th>
                     <th>Type d'échantillon</th>
-                    <th>Tests en attente</th>
-                    <th>En attente de validation</th>
-                    <th>Total</th>
+                  <!--  <th>Tests en attente</th>  -->
+                    <th>Nombre d'examens à faire</th>
+                  <!--   <th>En attente de validation</th>  -->
+                  <!--  <th>Total</th>  -->
                     <th>notes</th>
-                    <th>Terminé ?</th>
+                    <th>Terminé?</th>
                     <th>Action</th>
   
                    </tr>
